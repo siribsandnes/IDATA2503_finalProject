@@ -1,6 +1,6 @@
 # final_project
 
-A new Flutter project.
+The final project in the course IDATA2503 
 
 ## Getting Started
 
