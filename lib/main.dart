@@ -1,5 +1,4 @@
 import 'package:final_project/screens/log_in.dart';
-import 'package:final_project/screens/tabs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +14,7 @@ final theme = ThemeData(
       border: UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
       ),
-      hintStyle: TextStyle(color: Colors.white)),
+      hintStyle: TextStyle(color: Color.fromARGB(130, 255, 255, 255))),
   useMaterial3: true,
   textTheme: GoogleFonts.ralewayTextTheme(),
 );
@@ -31,7 +30,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: LogInScreen(),
+      home: const LogInScreen(),
     );
   }
 }

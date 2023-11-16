@@ -1,5 +1,4 @@
 import 'package:final_project/screens/sign_up.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -18,7 +17,7 @@ class _LogInScreenState extends State<LogInScreen> {
   void _signUp() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (ctx) => SignUpScreen(),
+        builder: (ctx) => const SignUpScreen(),
       ),
     );
   }
@@ -26,7 +25,7 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(1000, 44, 88, 200),
+      backgroundColor: const Color.fromARGB(1000, 44, 88, 200),
       body: Column(
         children: [
           Expanded(
@@ -80,8 +79,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(130, 45),
-                      textStyle: TextStyle(fontSize: 18),
-                      backgroundColor: Color.fromARGB(1000, 50, 219, 241),
+                      textStyle: const TextStyle(fontSize: 18),
+                      backgroundColor: const Color.fromARGB(1000, 50, 219, 241),
                       foregroundColor: Colors.white),
                   child: const Text(
                     "Log in",
@@ -91,12 +90,12 @@ class _LogInScreenState extends State<LogInScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Dont have an account?",
+                  "Don't have an account?",
                   style: TextStyle(color: Colors.white),
                 ),
                 const SizedBox(
