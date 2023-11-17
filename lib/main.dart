@@ -1,4 +1,6 @@
 import 'package:final_project/screens/log_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,12 +16,15 @@ final theme = ThemeData(
       border: UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.white),
       ),
-      hintStyle: TextStyle(color: Color.fromARGB(130, 255, 255, 255))),
+      hintStyle: TextStyle(color: Color.fromARGB(130, 0, 0, 0))),
   useMaterial3: true,
   textTheme: GoogleFonts.ralewayTextTheme(),
 );
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const ProviderScope(child: App()));
 }
 

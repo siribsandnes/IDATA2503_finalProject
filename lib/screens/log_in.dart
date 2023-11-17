@@ -33,47 +33,98 @@ class _LogInScreenState extends State<LogInScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Log In",
+                  "Hi there!",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "Log in to begin a new workout.",
+                  style: TextStyle(
+                      color: Color.fromARGB(1000, 50, 219, 241),
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(60, 30, 60, 40),
+                  padding: const EdgeInsets.fromLTRB(60, 40, 60, 40),
                   child: Form(
                     child: Column(
                       children: [
-                        TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          style: const TextStyle(color: Colors.white),
-                          decoration: const InputDecoration(
-                            hintText: "Mail",
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 11, 67, 135)
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 5), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: TextFormField(
+                              style: const TextStyle(color: Colors.black),
+                              decoration: const InputDecoration(
+                                hintText: "Email",
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                              ),
+                              validator: (value) {
+                                return "validate";
+                              },
+                              onSaved: (value) {},
+                            ),
                           ),
-                          validator: (value) {
-                            return "validate";
-                          },
-                          onSaved: (value) {},
                         ),
                         const SizedBox(
                           height: 30,
                         ),
-                        TextFormField(
-                          obscureText: true,
-                          style: const TextStyle(color: Colors.white),
-                          decoration:
-                              const InputDecoration(hintText: "Password"),
-                          validator: (value) {
-                            return "validate";
-                          },
-                          onSaved: (value) {},
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(5),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromARGB(255, 11, 67, 135)
+                                      .withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: const Offset(
+                                      0, 5), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: TextFormField(
+                              style: const TextStyle(color: Colors.black),
+                              obscureText: true,
+                              decoration: const InputDecoration(
+                                hintText: "Password",
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 10),
+                              ),
+                              validator: (value) {
+                                return "validate";
+                              },
+                              onSaved: (value) {},
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
                 ),
                 ElevatedButton(
                   onPressed: () {},
@@ -84,6 +135,9 @@ class _LogInScreenState extends State<LogInScreen> {
                       foregroundColor: Colors.white),
                   child: const Text(
                     "Log in",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],
