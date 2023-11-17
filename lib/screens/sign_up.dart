@@ -92,6 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 25,
                         ),
+
                         //Lastname input
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -102,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(255, 11, 67, 135)
+                                  color: const Color.fromARGB(255, 11, 67, 135)
                                       .withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 5,
@@ -128,6 +129,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 25,
                         ),
+
                         //Email input
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -164,6 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 25,
                         ),
+
                         //Password input
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -174,7 +177,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(255, 11, 67, 135)
+                                  color: const Color.fromARGB(255, 11, 67, 135)
                                       .withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 5,
@@ -201,6 +204,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(
                           height: 25,
                         ),
+
                         //Password input
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 6),
@@ -211,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               borderRadius: BorderRadius.circular(5),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Color.fromARGB(255, 11, 67, 135)
+                                  color: const Color.fromARGB(255, 11, 67, 135)
                                       .withOpacity(0.5),
                                   spreadRadius: 1,
                                   blurRadius: 5,

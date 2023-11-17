@@ -1,4 +1,5 @@
 import 'package:final_project/screens/sign_up.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -13,6 +14,8 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _pressedTextButton = false;
+  var _enteredMail = "";
+  var _enteredPassword = "";
 
   void _signUp() {
     Navigator.of(context).push(
@@ -20,6 +23,16 @@ class _LogInScreenState extends State<LogInScreen> {
         builder: (ctx) => const SignUpScreen(),
       ),
     );
+  }
+
+  Future _signIn() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _enteredMail,
+        password: _enteredPassword,
+      );
+    }
   }
 
   @override
@@ -43,83 +56,76 @@ class _LogInScreenState extends State<LogInScreen> {
                   height: 10,
                 ),
                 const Text(
-                  "Log in to begin a new workout.",
+                  "Sign in to begin a new workout.",
                   style: TextStyle(
                       color: Color.fromARGB(1000, 50, 219, 241),
                       fontSize: 20,
                       fontWeight: FontWeight.normal),
                 ),
+
+                //Email input
                 Padding(
                   padding: const EdgeInsets.fromLTRB(60, 40, 60, 40),
                   child: Form(
+                    key: _formKey,
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 11, 67, 135)
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(
-                                      0, 5), // changes position of shadow
-                                ),
-                              ],
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            style: const TextStyle(color: Colors.black),
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(),
+                              hintText: "Email",
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10),
                             ),
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.black),
-                              decoration: const InputDecoration(
-                                hintText: "Email",
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                              ),
-                              validator: (value) {
-                                return "validate";
-                              },
-                              onSaved: (value) {},
-                            ),
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().length <= 1) {
+                                return "Please write a valid email";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _enteredMail = value!.trim();
+                            },
                           ),
                         ),
                         const SizedBox(
                           height: 30,
                         ),
+
+                        //Password input
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 6),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.white),
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color.fromARGB(255, 11, 67, 135)
-                                      .withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: const Offset(
-                                      0, 5), // changes position of shadow
-                                ),
-                              ],
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            style: const TextStyle(color: Colors.black),
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(),
+                              hintText: "Password",
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 10),
                             ),
-                            child: TextFormField(
-                              style: const TextStyle(color: Colors.black),
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                hintText: "Password",
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
-                              ),
-                              validator: (value) {
-                                return "validate";
-                              },
-                              onSaved: (value) {},
-                            ),
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.trim().length <= 6) {
+                                return "Password must be at least 6 characters";
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _enteredPassword = value!.trim();
+                            },
                           ),
                         ),
                       ],
@@ -127,14 +133,14 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _signIn,
                   style: ElevatedButton.styleFrom(
                       fixedSize: const Size(130, 45),
                       textStyle: const TextStyle(fontSize: 18),
                       backgroundColor: const Color.fromARGB(1000, 50, 219, 241),
                       foregroundColor: Colors.white),
                   child: const Text(
-                    "Log in",
+                    "Sign in",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                     ),

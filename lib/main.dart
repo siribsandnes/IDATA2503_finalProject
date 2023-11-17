@@ -1,4 +1,5 @@
 import 'package:final_project/screens/log_in.dart';
+import 'package:final_project/screens/main_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +8,27 @@ import 'package:google_fonts/google_fonts.dart';
 
 final theme = ThemeData(
   inputDecorationTheme: const InputDecorationTheme(
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      border: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.white),
-      ),
-      hintStyle: TextStyle(color: Color.fromARGB(130, 0, 0, 0))),
+    errorStyle: TextStyle(
+      color: Color.fromARGB(1000, 255, 70, 70),
+    ),
+    //errorBorder: OutlineInputBorder(
+    //  borderSide: BorderSide(
+    //    color: Color.fromARGB(1000, 255, 107, 107),
+    //  ),
+    //),
+    enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    border: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.white),
+    ),
+    hintStyle: TextStyle(
+      color: Color.fromARGB(130, 0, 0, 0),
+    ),
+  ),
   useMaterial3: true,
   textTheme: GoogleFonts.ralewayTextTheme(),
 );
@@ -35,7 +47,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const LogInScreen(),
+      home: MainPageScreen(),
     );
   }
 }
