@@ -1,5 +1,5 @@
 import 'package:final_project/screens/log_in.dart';
-import 'package:final_project/screens/main_page.dart';
+import 'package:final_project/screens/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: MainPageScreen(),
+      home: MainScreen(),
     );
   }
 }
