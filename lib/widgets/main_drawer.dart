@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 //Represents a main drawer. Does not have to be statefull as we will "Manage state" with Navigator
@@ -15,7 +16,7 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: const Color.fromARGB(1000, 44, 88, 200),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(5, 60, 5, 60),
+        padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
         child: Column(
           children: [
             //Element in the menu drawer that pops out
@@ -32,9 +33,7 @@ class MainDrawer extends StatelessWidget {
                     .titleSmall!
                     .copyWith(color: Colors.white, fontSize: 24),
               ),
-              onTap: () {
-                //onSelectScreen('meals');
-              },
+              onTap: () {},
             ),
             //Element in the menu drawer that pops out
             ListTile(
@@ -116,14 +115,14 @@ class MainDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               title: Text(
-                'Log out',
+                'Sign out',
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(color: Colors.white, fontSize: 24),
               ),
               onTap: () {
-                //onSelectScreen('filters');
+                FirebaseAuth.instance.signOut();
               },
             ),
           ],
