@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LogInScreen extends StatefulWidget {
-  const LogInScreen({super.key});
+  const LogInScreen({super.key, required this.showRegisterPage});
+  final VoidCallback showRegisterPage;
 
   @override
   State<StatefulWidget> createState() {
@@ -13,17 +14,8 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   final _formKey = GlobalKey<FormState>();
-  bool _pressedTextButton = false;
   var _enteredMail = "";
   var _enteredPassword = "";
-
-  void _signUp() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (ctx) => const SignUpScreen(),
-      ),
-    );
-  }
 
   Future _signIn() async {
     if (_formKey.currentState!.validate()) {
@@ -34,6 +26,14 @@ class _LogInScreenState extends State<LogInScreen> {
       );
     }
   }
+
+  // void _signUp() {
+  //   Navigator.push(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => SignUpScreen(),
+  //       ));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +149,7 @@ class _LogInScreenState extends State<LogInScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+          SafeArea(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -161,34 +160,59 @@ class _LogInScreenState extends State<LogInScreen> {
                 const SizedBox(
                   width: 3,
                 ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _pressedTextButton = !_pressedTextButton;
-                    });
-                    _signUp();
-                  },
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
-                    minimumSize: const Size(50, 30),
-                    splashFactory: NoSplash.splashFactory,
+                GestureDetector(
+                  onTap: widget.showRegisterPage,
+                  child: const Text(
+                    "Sign Up!",
+                    style: TextStyle(
+                        color: Color.fromARGB(1000, 50, 219, 241),
+                        fontWeight: FontWeight.bold),
                   ),
-                  child: Text(
-                    "Sign up",
-                    style: _pressedTextButton
-                        ? const TextStyle(
-                            color: Color.fromARGB(232, 162, 236, 246),
-                            fontWeight: FontWeight.bold,
-                          )
-                        : const TextStyle(
-                            color: Color.fromARGB(1000, 50, 219, 241),
-                            fontWeight: FontWeight.bold,
-                          ),
-                  ),
-                )
+                ),
               ],
             ),
           )
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text(
+          //         "Don't have an account?",
+          //         style: TextStyle(color: Colors.white),
+          //       ),
+          //       const SizedBox(
+          //         width: 3,
+          //       ),
+          //       TextButton(
+          //         onPressed: () {
+          //           print("In on pressed");
+          //           setState(() {
+          //             _pressedTextButton = !_pressedTextButton;
+          //             _signUp();
+          //           });
+          //         },
+          //         style: TextButton.styleFrom(
+          //           padding: const EdgeInsets.all(0),
+          //           minimumSize: const Size(50, 30),
+          //           splashFactory: NoSplash.splashFactory,
+          //         ),
+          //         child: Text(
+          //           "Sign up",
+          //           style: _pressedTextButton
+          //               ? const TextStyle(
+          //                   color: Color.fromARGB(232, 162, 236, 246),
+          //                   fontWeight: FontWeight.bold,
+          //                 )
+          //               : const TextStyle(
+          //                   color: Color.fromARGB(1000, 50, 219, 241),
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );

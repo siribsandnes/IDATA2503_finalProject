@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+  const SignUpScreen({super.key, required this.showLoginPage});
+
+  final VoidCallback showLoginPage;
 
   @override
   State<StatefulWidget> createState() {
@@ -12,6 +14,10 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _pressedTextButton = false;
+
+  Future signUp() async {
+    //FIX LATER
+  }
 
   void _logIn() {
     Navigator.of(context).pop();
@@ -260,8 +266,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+          SafeArea(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -272,34 +277,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   width: 3,
                 ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _pressedTextButton = !_pressedTextButton;
-                      _logIn();
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(0),
-                    minimumSize: const Size(50, 30),
-                    splashFactory: NoSplash.splashFactory,
+                GestureDetector(
+                  onTap: widget.showLoginPage,
+                  child: const Text(
+                    "Log in!",
+                    style: TextStyle(
+                        color: Color.fromARGB(1000, 50, 219, 241),
+                        fontWeight: FontWeight.bold),
                   ),
-                  child: Text(
-                    "Log in",
-                    style: _pressedTextButton
-                        ? const TextStyle(
-                            color: Color.fromARGB(232, 162, 236, 246),
-                            fontWeight: FontWeight.bold,
-                          )
-                        : const TextStyle(
-                            color: Color.fromARGB(1000, 50, 219, 241),
-                            fontWeight: FontWeight.bold,
-                          ),
-                  ),
-                )
+                ),
               ],
             ),
           )
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       const Text(
+          //         "Allready have an account?",
+          //         style: TextStyle(color: Colors.white),
+          //       ),
+          //       const SizedBox(
+          //         width: 3,
+          //       ),
+          //       TextButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             _pressedTextButton = !_pressedTextButton;
+          //             _logIn();
+          //           });
+          //         },
+          //         style: TextButton.styleFrom(
+          //           padding: const EdgeInsets.all(0),
+          //           minimumSize: const Size(50, 30),
+          //           splashFactory: NoSplash.splashFactory,
+          //         ),
+          //         child: Text(
+          //           "Log in",
+          //           style: _pressedTextButton
+          //               ? const TextStyle(
+          //                   color: Color.fromARGB(232, 162, 236, 246),
+          //                   fontWeight: FontWeight.bold,
+          //                 )
+          //               : const TextStyle(
+          //                   color: Color.fromARGB(1000, 50, 219, 241),
+          //                   fontWeight: FontWeight.bold,
+          //                 ),
+          //         ),
+          //       )
+          //     ],
+          //   ),
+          // )
         ],
       ),
     );
