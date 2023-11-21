@@ -1,5 +1,5 @@
-import 'package:final_project/screens/log_in.dart';
-import 'package:final_project/screens/sign_up.dart';
+import 'package:final_project/screens/authentication/log_in.dart';
+import 'package:final_project/screens/authentication/sign_up.dart';
 import 'package:flutter/cupertino.dart';
 
 class AuthScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:final_project/screens/log_in.dart';
-import 'package:final_project/authentication/main.dart';
+import 'package:final_project/screens/authentication/log_in.dart';
+import 'package:final_project/screen_display/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ final theme = ThemeData(
     ),
   ),
   useMaterial3: true,
-  textTheme: GoogleFonts.ralewayTextTheme(),
+  textTheme: GoogleFonts.cabinTextTheme(),
 );
 
 void main() async {

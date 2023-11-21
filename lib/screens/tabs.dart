@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:final_project/screens/favorite_workouts.dart';
 import 'package:final_project/screens/home.dart';
 import 'package:final_project/screens/workout_history.dart';
@@ -17,6 +18,8 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   final user = FirebaseAuth.instance.currentUser;
   int _selectedPageIndex = 1;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+
   //Figures out which page to show based on the index from bottomNavigationBar
   void _selectPage(int index) {
     setState(() {
@@ -39,32 +42,29 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
       appBar: AppBar(
-        iconTheme:
-            const IconThemeData(color: Color.fromARGB(1000, 34, 67, 153)),
         backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
       ),
       body: _activePage,
       drawer: MainDrawer(),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex:
-            _selectedPageIndex, //Makes sure that the button of current screen is higlighted
-        fixedColor: Color.fromARGB(1000, 34, 67, 153),
-        onTap: _selectPage, // Selects page based on which button is pressed
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history_outlined),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: '',
-          ),
-        ],
-      ),
+      bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
+          buttonBackgroundColor: const Color.fromARGB(255, 44, 88, 200),
+          key: _bottomNavigationKey,
+          index: 1,
+          items: <Widget>[
+            Icon(
+              Icons.history,
+              size: 30,
+            ),
+            Icon(Icons.add, size: 40),
+            Icon(Icons.favorite_outline, size: 30),
+          ],
+          onTap: (index) {
+            setState(() {
+              index = index;
+              _selectedPageIndex = index;
+            });
+          }),
     );
   }
 }

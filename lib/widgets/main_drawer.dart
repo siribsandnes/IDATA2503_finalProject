@@ -14,7 +14,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: const Color.fromARGB(1000, 44, 88, 200),
+      backgroundColor: const Color.fromARGB(255, 44, 88, 200),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 60, 0, 60),
         child: Column(
