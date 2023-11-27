@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key, required this.showLoginPage});
@@ -34,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         password: _enteredPasswordController.text.trim(),
       );
 
-      addUser(
+      saveUser(
         _enteredFirstName,
         _enteredLastName,
         _enteredEmail,
@@ -42,13 +45,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-//Adds user to firebase database
-  Future addUser(String firstname, String lastname, String email) async {
-    await FirebaseFirestore.instance.collection("user").add({
-      "email": email,
-      "firstname": firstname,
-      "lastname": lastname,
-    });
+  Future saveUser(String firstname, String lastname, String email) async {
+    final url = Uri.https(
+        'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
+        'user.json');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(
+        {
+          'firstname': firstname,
+          'lastname': lastname,
+          'email': email,
+        },
+      ),
+    );
+
+    print(response.body);
+    print(response.statusCode);
   }
 
   bool emailIsValid(String email) {

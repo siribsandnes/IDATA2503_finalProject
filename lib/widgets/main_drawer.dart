@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 //Represents a main drawer. Does not have to be statefull as we will "Manage state" with Navigator
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({
-    super.key,
-    //required this.onSelectScreen,
-  });
+  const MainDrawer({super.key, required this.onSelectScreen
+      //required this.onSelectScreen,
+      });
+
+  final Function(String identifier) onSelectScreen;
 
   //final Function(String identifier) onSelectScreen;
 
@@ -33,7 +34,9 @@ class MainDrawer extends StatelessWidget {
                     .titleSmall!
                     .copyWith(color: Colors.white, fontSize: 24),
               ),
-              onTap: () {},
+              onTap: () {
+                onSelectScreen("home");
+              },
             ),
             //Element in the menu drawer that pops out
             ListTile(
@@ -50,27 +53,10 @@ class MainDrawer extends StatelessWidget {
                     .copyWith(color: Colors.white, fontSize: 24),
               ),
               onTap: () {
-                //onSelectScreen('filters');
+                onSelectScreen('profile');
               },
             ),
-            //Element in the menu drawer that pops out
-            ListTile(
-              leading: const Icon(
-                Icons.history_outlined,
-                size: 26,
-                color: Colors.white,
-              ),
-              title: Text(
-                'History',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: Colors.white, fontSize: 24),
-              ),
-              onTap: () {
-                //onSelectScreen('filters');
-              },
-            ),
+
             //Element in the menu drawer that pops out
             ListTile(
               leading: const Icon(
@@ -86,27 +72,10 @@ class MainDrawer extends StatelessWidget {
                     .copyWith(color: Colors.white, fontSize: 24),
               ),
               onTap: () {
-                //onSelectScreen('filters');
+                onSelectScreen('settings');
               },
             ),
-            //Element in the menu drawer that pops out
-            ListTile(
-              leading: const Icon(
-                Icons.query_stats_outlined,
-                size: 26,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Statistics',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: Colors.white, fontSize: 24),
-              ),
-              onTap: () {
-                //onSelectScreen('filters');
-              },
-            ),
+
             //Element in the menu drawer that pops out
             ListTile(
               leading: const Icon(
