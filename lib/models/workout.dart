@@ -5,7 +5,7 @@ class Workout {
     required this.startTime,
   });
 
-  final String name;
+  String name;
   DateTime date;
   DateTime startTime;
   late DateTime endTime;
@@ -18,6 +18,10 @@ class Workout {
 
   String getName() {
     return name;
+  }
+
+  void setName(String name) {
+    this.name = name;
   }
 
   DateTime getDate() {

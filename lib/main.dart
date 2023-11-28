@@ -29,6 +29,7 @@ final theme = ThemeData(
       color: Color.fromARGB(130, 0, 0, 0),
     ),
   ),
+  dialogTheme: const DialogTheme(backgroundColor: Colors.white),
   useMaterial3: true,
   textTheme: GoogleFonts.cabinTextTheme(),
 );

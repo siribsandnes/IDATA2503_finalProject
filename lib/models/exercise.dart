@@ -1,11 +1,11 @@
 enum BodyPart {
-  chest,
-  shoulders,
-  arms,
-  upperlegs,
-  lowerlegs,
-  back,
-  abs,
+  Chest,
+  Shoulders,
+  Arms,
+  Upperlegs,
+  Lowerlegs,
+  Back,
+  Abs,
 }
 
 class Exercise {

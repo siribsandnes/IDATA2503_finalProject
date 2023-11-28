@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:final_project/models/workout.dart';
 import 'package:final_project/screens/home.dart';
 import 'package:final_project/screens/new_workout.dart';
 import 'package:final_project/screens/profile.dart';
@@ -96,7 +97,12 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     if (_selectedPageIndex == 1) {
-      _activePage = NewWorkoutScreen();
+      _activePage = NewWorkoutScreen(
+        workout: Workout(
+            name: "New workout",
+            date: DateTime.now(),
+            startTime: DateTime.now()),
+      );
     }
 
     if (_selectedPageIndex == 2) {
