@@ -13,13 +13,13 @@ class NewExerciseDialog extends StatefulWidget {
 }
 
 class _NewExerciseDialogState extends State<NewExerciseDialog> {
-  List<Exercise> allExercixes =
+  List<Exercise> exercises =
       availableExercises; // NEEDS TO GET EXERCISES FROM DATABASE
-  List<Exercise> exercisesToAdd = [];
+  List<Exercise> addedExercises = [];
 
   @override
   Widget build(BuildContext context) {
-    List<bool> selected = List.generate(allExercixes.length, (i) => false);
+    List<bool> selected = List.generate(exercises.length, (i) => false);
     String warning = "";
 
     return StatefulBuilder(
@@ -59,12 +59,12 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                       ),
                     ),
                     onPressed: () {
-                      if (exercisesToAdd.isEmpty) {
+                      if (addedExercises.isEmpty) {
                         setState(() {
                           warning = "Select a exercise to add";
                         });
                       } else {
-                        Navigator.pop(context, exercisesToAdd);
+                        Navigator.pop(context, addedExercises);
                       }
                     },
                   ),
@@ -109,15 +109,18 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                     ),
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: availableExercises.length,
+                      itemCount: exercises.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           child: ListTile(
                             onTap: () {
                               setState(() {
-                                exercisesToAdd.add(availableExercises[index]);
+                                if (!addedExercises
+                                    .contains(exercises[index])) {
+                                  addedExercises.add(exercises[index]);
+                                }
                                 selected[index] = !selected[index];
-                                print(exercisesToAdd.length);
+                                print(addedExercises.length);
                                 for (bool val in selected) {
                                   print(val);
                                 }
