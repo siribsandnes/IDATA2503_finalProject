@@ -25,4 +25,8 @@ class Exercise {
   String getbodyPart() {
     return this.bodyPart.name;
   }
+
+  void addSet(Set set) {
+    sets.add(set);
+  }
 }

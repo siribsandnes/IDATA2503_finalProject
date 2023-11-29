@@ -1,11 +1,10 @@
-import 'package:final_project/data/dummydata.dart';
 import 'package:final_project/models/exercise.dart';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:flutter/widgets.dart';
 
 class NewExerciseDialog extends StatefulWidget {
   const NewExerciseDialog({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _NewExerciseDialogState();
@@ -13,178 +12,160 @@ class NewExerciseDialog extends StatefulWidget {
 }
 
 class _NewExerciseDialogState extends State<NewExerciseDialog> {
-  List<Exercise> exercises =
-      availableExercises; // NEEDS TO GET EXERCISES FROM DATABASE
-  List<Exercise> addedExercises = [];
+  List<BodyPart> dropDownElements = [
+    BodyPart.Chest,
+    BodyPart.Shoulders,
+    BodyPart.Arms,
+    BodyPart.Upperlegs,
+    BodyPart.Lowerlegs,
+    BodyPart.Back,
+    BodyPart.Abs,
+  ];
+
+  BodyPart _selectedBodyPart = BodyPart.Arms;
+  String _exerciseName = "";
 
   @override
   Widget build(BuildContext context) {
-    List<bool> selected = List.generate(exercises.length, (i) => false);
-    String warning = "";
+    return Theme(
+      data: ThemeData(),
+      child: AlertDialog(
+        contentPadding: EdgeInsets.all(20),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        title: const Text(
+          'Create a new Exercise',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 20),
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Theme(
+                data: ThemeData(),
+                child: TextField(
+                  onChanged: (value) {
+                    _exerciseName = value;
+                    print(_exerciseName);
+                  },
+                  decoration: const InputDecoration(
+                    labelText: "New Exercise",
+                    hintText: "Type here...",
+                    hintStyle:
+                        TextStyle(color: Color.fromARGB(255, 44, 88, 200)),
+                    labelStyle:
+                        TextStyle(color: Color.fromARGB(255, 44, 88, 200)),
+                    filled: true,
+                    fillColor: Color.fromARGB(255, 216, 224, 245),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                      borderSide: BorderSide.none,
 
-    return StatefulBuilder(
-      builder: (context, setState) {
-        return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 100,
-                  child: ElevatedButton(
-                    child: const Text(
-                      'CANCEL',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 44, 88, 200),
-                      ),
+                      // Remove border color
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 216, 224, 245),
+                  borderRadius:
+                      BorderRadius.circular(6.0), // Adjust the radius as needed
                 ),
-                SizedBox(
-                  width: 100,
-                  child: ElevatedButton(
-                    child: const Text(
-                      'ADD',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 44, 88, 200),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (addedExercises.isEmpty) {
-                        setState(() {
-                          warning = "Select a exercise to add";
-                        });
-                      } else {
-                        Navigator.pop(context, addedExercises);
-                      }
+                child: DropdownButton<BodyPart>(
+                  isExpanded: true,
+                  value: _selectedBodyPart,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _selectedBodyPart = newValue!;
+                      print(_selectedBodyPart);
+                    });
+                  },
+                  items: dropDownElements.map<DropdownMenuItem<BodyPart>>(
+                    (BodyPart value) {
+                      return DropdownMenuItem<BodyPart>(
+                        value: value,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text(
+                            value.toString().split('.').last,
+                            style: const TextStyle(
+                                color: Color.fromARGB(255, 44, 88, 200)),
+                          ),
+                        ),
+                      );
                     },
-                  ),
-                )
-              ],
-            )
-          ],
-          content: SingleChildScrollView(
-            child: SizedBox(
-              //CHANGED FROM CONTAINER
-              width: double.maxFinite,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(""),
-                  SearchBar(
-                    textStyle: const MaterialStatePropertyAll(
-                      TextStyle(color: Color.fromARGB(255, 44, 88, 200)),
+                  ).toList(),
+                  // Apply the same decoration style to the dropdown button
+                  underline: Container(),
+                  elevation: 0,
+                  dropdownColor: Color.fromARGB(255, 216, 224, 245),
+                  icon: const Icon(Icons.arrow_drop_down,
+                      color: Color.fromARGB(255, 44, 88, 200)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 90,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      const Color.fromARGB(255, 216, 224, 245),
                     ),
-                    leading: const Icon(
-                      Icons.search,
+                  ),
+                  child: const Text(
+                    'CANCEL',
+                    style: TextStyle(
                       color: Color.fromARGB(255, 44, 88, 200),
                     ),
-                    hintText: "Search...",
-                    elevation: MaterialStatePropertyAll(0),
-                    shape: MaterialStateProperty.all(
-                      const ContinuousRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(
-                        const Color.fromARGB(255, 216, 224, 245)),
                   ),
-                  Text(
-                    warning,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  const Divider(),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height * 0.4,
-                    ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: exercises.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          child: ListTile(
-                            onTap: () {
-                              setState(() {
-                                if (!addedExercises
-                                    .contains(exercises[index])) {
-                                  addedExercises.add(exercises[index]);
-                                }
-                                selected[index] = !selected[index];
-                                print(addedExercises.length);
-                                for (bool val in selected) {
-                                  print(val);
-                                }
-                              });
-                            },
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: 40,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: selected[index]
-                                          ? Color.fromARGB(255, 163, 240, 166)
-                                          : Color.fromARGB(255, 216, 224, 245),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(5),
-                                      ),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                      availableExercises[index]
-                                          .bodyPart
-                                          .name[0]
-                                          .toUpperCase(),
-                                      style: const TextStyle(
-                                          color:
-                                              Color.fromARGB(255, 44, 88, 200)),
-                                    )),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      availableExercises[index].getName(),
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    Text(
-                                      availableExercises[index].bodyPart.name,
-                                      style: const TextStyle(
-                                        color: Color.fromARGB(255, 44, 88, 200),
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
               ),
-            ),
-          ),
-        );
-      },
+              const SizedBox(
+                width: 15,
+              ),
+              SizedBox(
+                width: 90,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(
+                      const Color.fromARGB(255, 216, 224, 245),
+                    ),
+                  ),
+                  child: const Text(
+                    'ADD',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 44, 88, 200),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_exerciseName.isNotEmpty && _exerciseName.length >= 1) {
+                      Exercise exercise = Exercise(
+                          name: _exerciseName, bodyPart: _selectedBodyPart);
+                      Navigator.of(context).pop(exercise);
+                    }
+                  },
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:final_project/models/exercise.dart';
+import 'package:final_project/models/workout.dart';
+import 'package:final_project/widgets/new_workout/exercise_container.dart';
 //import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
-import 'package:final_project/widgets/new_workout/new_exercise_dialog.dart';
+import 'package:final_project/widgets/new_workout/add_exercise_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class NewWorkoutScreen extends StatefulWidget {
-  const NewWorkoutScreen({super.key, required this.startTime});
-
-  final DateTime startTime;
+  const NewWorkoutScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,12 +21,14 @@ class NewWorkoutScreen extends StatefulWidget {
 
 class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
   final List<Exercise> exercises = [];
+  Workout newWorkout = Workout(
+      name: "New workout", date: DateTime.now(), startTime: DateTime.now());
 
   @override
   Widget build(BuildContext context) {
     void addExercise() async {
       final List<Exercise> newExercise = await showDialog(
-          context: context, builder: (context) => NewExerciseDialog());
+          context: context, builder: (context) => AddExerciseDialog());
       setState(() {
         for (Exercise exercise in newExercise) {
           exercises.add(exercise);
@@ -38,7 +40,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
     Future saveWorkout(
       String name,
       DateTime startTime,
-      //List<Exercise> exercises,
+      // List<Exercise> exercises,
     ) async {
       DateTime endTime = DateTime.now();
       String formattedStartTime = DateFormat.Hms().format(startTime);
@@ -83,7 +85,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NewWorkoutHeader(workout: "workout"),
+              NewWorkoutHeader(workout: newWorkout),
               const SizedBox(
                 height: 10,
               ),
@@ -111,7 +113,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                     shrinkWrap: true,
                     itemCount: exercises.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Text(exercises[index].name);
+                      return ExerciseContainer(exercise: exercises[index]);
                     },
                   ),
                 ),
@@ -123,26 +125,29 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                addExercise();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 255, 255, 255),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)),
+                          child: Theme(
+                            data: ThemeData(),
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  addExercise();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 255, 255, 255),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6)),
+                                  ),
                                 ),
-                              ),
-                              child: const Text(
-                                "Add Exercise",
-                                style: TextStyle(color: Colors.black),
-                              )),
+                                child: const Text(
+                                  "Add Exercise",
+                                  style: TextStyle(color: Colors.black),
+                                )),
+                          ),
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Row(
@@ -178,7 +183,10 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                               ),
                             ),
                             onPressed: () {
-                              saveWorkout("Workout 1", DateTime.now());
+                              saveWorkout(
+                                "Workout 1",
+                                DateTime.now(),
+                              );
                             },
                             child: const Text(
                               "Finish workout",

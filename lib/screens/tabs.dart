@@ -98,9 +98,7 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     if (_selectedPageIndex == 1) {
-      _activePage = NewWorkoutScreen(
-        startTime: DateTime.now(),
-      );
+      _activePage = NewWorkoutScreen();
     }
 
     if (_selectedPageIndex == 2) {
