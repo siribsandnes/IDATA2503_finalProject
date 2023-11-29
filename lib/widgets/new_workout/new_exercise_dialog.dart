@@ -156,7 +156,9 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                   onPressed: () {
                     if (_exerciseName.isNotEmpty && _exerciseName.length >= 1) {
                       Exercise exercise = Exercise(
-                          name: _exerciseName, bodyPart: _selectedBodyPart);
+                          name: _exerciseName,
+                          bodyPart: _selectedBodyPart,
+                          sets: []);
                       Navigator.of(context).pop(exercise);
                     }
                   },

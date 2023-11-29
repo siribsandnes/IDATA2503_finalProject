@@ -1,8 +1,11 @@
+import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/home/horizontal_listview/horizontal_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class HorizontalListView extends StatefulWidget {
-  const HorizontalListView({super.key});
+  const HorizontalListView({super.key, required this.workouts});
+  final List<Workout> workouts;
   @override
   State<StatefulWidget> createState() {
     return _HorizontalListViewState();
@@ -34,10 +37,12 @@ class _HorizontalListViewState extends State<HorizontalListView> {
           Container(
             height: 175,
             child: ListView.builder(
-              itemCount: 5,
+              itemCount: widget.workouts.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: ((context, index) {
-                return HorizontalCard();
+                return HorizontalCard(
+                  workout: widget.workouts[index],
+                );
               }),
             ),
           )

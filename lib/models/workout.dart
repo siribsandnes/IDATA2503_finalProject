@@ -1,4 +1,5 @@
 import 'package:final_project/models/exercise.dart';
+import 'package:intl/intl.dart';
 
 class Workout {
   Workout({
@@ -44,5 +45,15 @@ class Workout {
 
   void setStarttime(DateTime time) {
     startTime = time;
+  }
+
+  void addExercises(List<Exercise> listOfExercises) {
+    for (Exercise exercise in listOfExercises) {
+      exercises.add(exercise);
+    }
+  }
+
+  String getFormattedDate() {
+    return DateFormat('dd/MM/yy').format(date);
   }
 }

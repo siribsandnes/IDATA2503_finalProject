@@ -32,4 +32,12 @@ class ExerciseSets {
   void setDone(bool isDone) {
     done = isDone;
   }
+
+  factory ExerciseSets.fromJson(Map<String, dynamic> json) {
+    return ExerciseSets(
+      done: json['done'],
+      weight: json['weight'].toDouble(),
+      reps: json['reps'],
+    );
+  }
 }

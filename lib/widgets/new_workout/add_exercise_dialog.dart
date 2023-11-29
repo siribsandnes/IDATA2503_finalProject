@@ -65,8 +65,8 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
           bodyPart = BodyPart.Arms; // For example, setting a default value
       }
 
-      Exercise exercise =
-          Exercise(name: loadedExercise.value["name"], bodyPart: bodyPart);
+      Exercise exercise = Exercise(
+          name: loadedExercise.value["name"], bodyPart: bodyPart, sets: []);
       setState(() {
         exercises.add(exercise);
       });

@@ -1,7 +1,10 @@
+import 'package:final_project/models/workout.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalCard extends StatelessWidget {
-  const HorizontalCard({super.key});
+  const HorizontalCard({super.key, required this.workout});
+
+  final Workout workout;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class HorizontalCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "Workout name", //GET FROM WORKOUT
+                      workout.name, //GET FROM WORKOUT
                       style: TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ],
@@ -29,13 +32,23 @@ class HorizontalCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "19.11.23", //GET FROM WORKOUT
+                      workout.getFormattedDate(),
                       style: TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 44, 88, 200)),
                     ),
                   ],
-                )
+                ),
+                Expanded(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.red)),
+                  ),
+                ),
               ],
             ),
           ),
