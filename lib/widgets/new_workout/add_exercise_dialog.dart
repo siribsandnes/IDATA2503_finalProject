@@ -233,10 +233,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                     addedExercises.add(exercises[index]);
                                   }
                                   selected[index] = !selected[index];
-                                  print(addedExercises.length);
-                                  for (bool val in selected) {
-                                    print(val);
-                                  }
                                 });
                               },
                               title: Row(

@@ -1,3 +1,5 @@
+import 'package:final_project/models/exerciseSets.dart';
+
 enum BodyPart {
   Chest,
   Shoulders,
@@ -16,7 +18,7 @@ class Exercise {
 
   final String name;
   final BodyPart bodyPart;
-  final List<Set> sets = [];
+  final List<ExerciseSets> sets = [];
 
   String getName() {
     return name;
@@ -26,7 +28,25 @@ class Exercise {
     return this.bodyPart.name;
   }
 
-  void addSet(Set set) {
+  void addSet(ExerciseSets set) {
     sets.add(set);
+  }
+
+  List<Map<String, dynamic>> setsToJson() {
+    return sets.map((exerciseSet) {
+      return {
+        'done': exerciseSet.done,
+        'weight': exerciseSet.weight,
+        'reps': exerciseSet.reps,
+      };
+    }).toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'bodyPart': bodyPart.name,
+      'sets': setsToJson(),
+    };
   }
 }

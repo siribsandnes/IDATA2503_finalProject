@@ -1,4 +1,6 @@
 import 'package:final_project/models/exercise.dart';
+import 'package:final_project/models/exerciseSets.dart';
+import 'package:final_project/widgets/new_workout/exercise_set.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseContainer extends StatefulWidget {
@@ -14,20 +16,33 @@ class ExerciseContainer extends StatefulWidget {
 
 class _ExerciseContainerState extends State<ExerciseContainer> {
   @override
+  void initState() {
+    super.initState();
+    widget.exercise.addSet(
+      ExerciseSets(
+        done: false,
+        weight: 0,
+        reps: 0,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: const EdgeInsets.all(5),
       child: Column(
         children: [
           Row(
             children: [
               Text(
                 widget.exercise.getName(),
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ],
           ),
-          Divider(
+          ExerciseSet(exerciseSets: widget.exercise.sets),
+          const Divider(
             color: Color.fromARGB(255, 182, 189, 206),
             thickness: 0.2,
           )

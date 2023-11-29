@@ -1,17 +1,21 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:final_project/models/exercise.dart';
+import 'package:final_project/models/exerciseSets.dart';
 import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/new_workout/exercise_container.dart';
-//import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
 import 'package:final_project/widgets/new_workout/add_exercise_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:final_project/models/user.dart' as myUser;
 
 class NewWorkoutScreen extends StatefulWidget {
-  const NewWorkoutScreen({super.key});
+  const NewWorkoutScreen({super.key, required this.user});
+
+  final myUser.User user;
 
   @override
   State<StatefulWidget> createState() {
@@ -32,55 +36,76 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       setState(() {
         for (Exercise exercise in newExercise) {
           exercises.add(exercise);
+          newWorkout.addExercise(exercise);
         }
       });
     }
 
+    bool validateExercises() {
+      print("inside calidate exercised");
+      bool isCorrect = false;
+      for (Exercise exercise in newWorkout.exercises) {
+        for (ExerciseSets sets in exercise.sets) {
+          print("inside loop");
+          print(sets.done);
+          print(sets.reps);
+          print(sets.weight);
+          if (sets.done == true && sets.reps > 0 && sets.weight > 0) {
+            isCorrect = true;
+          }
+        }
+      }
+
+      return isCorrect;
+    }
+
+    String getJson() {
+      List<Map<String, dynamic>> jsonList =
+          newWorkout.exercises.map((exercise) {
+        return exercise.toJson();
+      }).toList();
+
+      String jsonString = jsonEncode(jsonList);
+      print(jsonString);
+      return jsonString;
+    }
+
     //Fix code to save a real workout
-    Future saveWorkout(
-      String name,
-      DateTime startTime,
-      // List<Exercise> exercises,
-    ) async {
+    Future saveWorkout() async {
       DateTime endTime = DateTime.now();
-      String formattedStartTime = DateFormat.Hms().format(startTime);
+      String formattedDate = DateFormat.yMd().format(newWorkout.date);
+      String formattedStartTime = DateFormat.Hms().format(newWorkout.startTime);
       String formattedEndTime = DateFormat.Hms().format(endTime);
 
-      final url = Uri.https(
-          'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
-          'workout.json');
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode(
-          {
-            'name': name,
-            'startTime': formattedStartTime,
-            'endTime': formattedEndTime,
-            'exercises': [
-              {
-                'name': 'Bicep curl',
-                'bodyType': 'upper body',
-                'sets': [
-                  {
-                    'amountOfSets': 3,
-                    'weight': 10,
-                    'reps': 10,
-                  }
-                ]
-              },
-            ]
+      String jsonSets = getJson();
+
+      if (validateExercises()) {
+        final url = Uri.https(
+            'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
+            'workout.json');
+        final response = await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
           },
-        ),
-      );
-      print(response.body);
-      print(response.statusCode);
+          body: json.encode(
+            {
+              'user': widget.user.email,
+              'name': newWorkout.name,
+              'startTime': formattedStartTime,
+              'endTime': formattedEndTime,
+              'date': formattedDate,
+              'exercises': jsonSets,
+            },
+          ),
+        );
+      } else {
+        print("ikke validert all input");
+      }
     }
 
     return Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: SingleChildScrollView(
           child: Column(
@@ -90,13 +115,13 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                 height: 10,
               ),
               ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 500, minHeight: 0),
+                constraints: const BoxConstraints(maxHeight: 500, minHeight: 0),
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  padding: EdgeInsets.all(5),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(6),
                     ),
                     boxShadow: [
@@ -105,7 +130,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                             .withOpacity(0.5),
                         spreadRadius: 1,
                         blurRadius: 2,
-                        offset: Offset(0, 1),
+                        offset: const Offset(0, 1),
                       )
                     ],
                   ),
@@ -119,7 +144,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
                     Row(
@@ -133,7 +158,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Color.fromARGB(255, 255, 255, 255),
+                                      const Color.fromARGB(255, 255, 255, 255),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(6)),
@@ -183,10 +208,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                               ),
                             ),
                             onPressed: () {
-                              saveWorkout(
-                                "Workout 1",
-                                DateTime.now(),
-                              );
+                              saveWorkout();
                             },
                             child: const Text(
                               "Finish workout",

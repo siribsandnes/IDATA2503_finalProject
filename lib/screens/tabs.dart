@@ -24,7 +24,7 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 3;
-  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   late myUser.User user;
   List<Workout> workouts = [];
 
@@ -98,7 +98,9 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     if (_selectedPageIndex == 1) {
-      _activePage = NewWorkoutScreen();
+      _activePage = NewWorkoutScreen(
+        user: user,
+      );
     }
 
     if (_selectedPageIndex == 2) {
