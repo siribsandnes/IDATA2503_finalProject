@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 class NewWorkoutHeader extends StatefulWidget {
   const NewWorkoutHeader({super.key, required this.workout});
-  final Workout workout;
+  final String workout;
   @override
   State<StatefulWidget> createState() {
     return _NewWorkoutHeaderState();
@@ -16,9 +16,9 @@ class _NewWorkoutHeaderState extends State<NewWorkoutHeader> {
 
   @override
   void initState() {
-    workoutController.text = widget.workout.name;
+    workoutController.text = widget.workout;
     super.initState();
-    workoutController.text = widget.workout.name;
+    workoutController.text = widget.workout;
   }
 
   @override
@@ -52,7 +52,7 @@ class _NewWorkoutHeaderState extends State<NewWorkoutHeader> {
                   fontWeight: FontWeight.w500),
               onChanged: (text) {
                 setState(() {
-                  widget.workout.setName(text);
+                  //widget.workout.setName(text);
                 });
               },
             ),

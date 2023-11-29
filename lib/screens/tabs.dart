@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:final_project/models/user.dart' as myUser;
 import 'package:final_project/models/workout.dart';
 import 'package:final_project/screens/home.dart';
 import 'package:final_project/screens/new_workout.dart';
@@ -24,33 +25,33 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 3;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
+  late myUser.User user;
+  List<Workout> workouts = [];
 
   @override
   void initState() {
     super.initState();
-    // _loadUser();
+    _loadUser();
   }
 
-  // Future _loadUser() async {
-  //   final userEmail = FirebaseAuth.instance.currentUser!.email;
-  //   final url = Uri.https(
-  //       'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
-  //       'user.json');
-  //   final response = await http.get(url);
-  //   final Map<String, dynamic> loadedUsers = json.decode(response.body);
-  //   for (final loadedUser in loadedUsers.entries) {
-  //     if (loadedUser.value['email'] == userEmail) {
-  //       user.add(myUser.User(
-  //           firstname: loadedUser.value['firstname'],
-  //           lastname: loadedUser.value['lastname'],
-  //           email: loadedUser.value['email']));
-  //     }
-  //   }
+  Future _loadUser() async {
+    final userEmail = FirebaseAuth.instance.currentUser!.email;
+    final url = Uri.https(
+        'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
+        'user.json');
+    final response = await http.get(url);
+    final Map<String, dynamic> loadedUsers = json.decode(response.body);
+    for (final loadedUser in loadedUsers.entries) {
+      if (loadedUser.value['email'] == userEmail) {
+        user = myUser.User(
+            firstname: loadedUser.value['firstname'],
+            lastname: loadedUser.value['lastname'],
+            email: loadedUser.value['email']);
+      }
+    }
 
-  //   for (myUser.User users in user) {
-  //     users.printUser();
-  //   }
-  // }
+    print(user.firstname);
+  }
 
   _setScreen(String identifier) async {
     Navigator.pop(context); //Closes the MainDrawers
@@ -98,10 +99,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     if (_selectedPageIndex == 1) {
       _activePage = NewWorkoutScreen(
-        workout: Workout(
-            name: "New workout",
-            date: DateTime.now(),
-            startTime: DateTime.now()),
+        startTime: DateTime.now(),
       );
     }
 

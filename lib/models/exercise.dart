@@ -16,6 +16,7 @@ class Exercise {
 
   final String name;
   final BodyPart bodyPart;
+  final List<Set> sets = [];
 
   String getName() {
     return name;

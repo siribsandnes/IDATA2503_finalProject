@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:final_project/models/exercise.dart';
-import 'package:final_project/models/workout.dart';
+//import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
 import 'package:final_project/widgets/new_workout/new_exercise_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class NewWorkoutScreen extends StatefulWidget {
-  const NewWorkoutScreen({super.key, required this.workout});
-  final Workout workout;
+  const NewWorkoutScreen({super.key, required this.startTime});
+
+  final DateTime startTime;
 
   @override
   State<StatefulWidget> createState() {
@@ -29,24 +33,84 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       });
     }
 
+    Future saveWorkout(
+      String name,
+      DateTime startTime,
+      //List<Exercise> exercises,
+    ) async {
+      DateTime endTime = DateTime.now();
+
+      final url = Uri.https(
+          'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
+          'workout.json');
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(
+          {
+            'name': name,
+            'startTime': '10:00',
+            'endTime': '11:00',
+            'exercises': [
+              {
+                'name': 'Bicep curl',
+                'bodyType': 'upper body',
+                'sets': [
+                  {
+                    'amountOfSets': 3,
+                    'weight': 10,
+                    'reps': 10,
+                  }
+                ]
+              },
+            ]
+          },
+        ),
+      );
+      print(response.body);
+      print(response.statusCode);
+    }
+
     return Container(
         padding: EdgeInsets.all(10),
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NewWorkoutHeader(workout: widget.workout),
+              NewWorkoutHeader(workout: "workout"),
               const SizedBox(
                 height: 10,
               ),
               ConstrainedBox(
                 constraints: BoxConstraints(maxHeight: 500, minHeight: 0),
-                child: ListView.builder(
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15),
+                  padding: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(6),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(255, 207, 207, 207)
+                            .withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: exercises.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Text(exercises[index].name);
-                    }),
+                    },
+                  ),
+                ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
@@ -60,7 +124,8 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                                 addExercise();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
+                                backgroundColor:
+                                    Color.fromARGB(255, 255, 255, 255),
                                 shape: const RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(6)),
@@ -108,7 +173,9 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                                     BorderRadius.all(Radius.circular(6)),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              saveWorkout("Workout 1", DateTime.now());
+                            },
                             child: const Text(
                               "Finish workout",
                               style: TextStyle(color: Colors.black),

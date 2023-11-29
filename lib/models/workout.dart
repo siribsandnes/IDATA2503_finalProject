@@ -1,3 +1,5 @@
+import 'package:final_project/models/exercise.dart';
+
 class Workout {
   Workout({
     required this.name,
@@ -10,9 +12,9 @@ class Workout {
   DateTime startTime;
   late DateTime endTime;
 
-  final List<List<Set>> exercises = [];
+  final List<Exercise> exercises = [];
 
-  void addExercise(List<Set> exercise) {
+  void addExercise(Exercise exercise) {
     exercises.add(exercise);
   }
 
