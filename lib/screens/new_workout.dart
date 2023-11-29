@@ -6,6 +6,7 @@ import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
 import 'package:final_project/widgets/new_workout/new_exercise_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class NewWorkoutScreen extends StatefulWidget {
   const NewWorkoutScreen({super.key, required this.startTime});
@@ -33,12 +34,15 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       });
     }
 
+    //Fix code to save a real workout
     Future saveWorkout(
       String name,
       DateTime startTime,
       //List<Exercise> exercises,
     ) async {
       DateTime endTime = DateTime.now();
+      String formattedStartTime = DateFormat.Hms().format(startTime);
+      String formattedEndTime = DateFormat.Hms().format(endTime);
 
       final url = Uri.https(
           'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
@@ -51,8 +55,8 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
         body: json.encode(
           {
             'name': name,
-            'startTime': '10:00',
-            'endTime': '11:00',
+            'startTime': formattedStartTime,
+            'endTime': formattedEndTime,
             'exercises': [
               {
                 'name': 'Bicep curl',
