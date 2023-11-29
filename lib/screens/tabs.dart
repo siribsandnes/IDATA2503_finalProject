@@ -73,12 +73,11 @@ class _TabsScreenState extends State<TabsScreen> {
     for (final loadedWorkout in loadWorkouts.entries) {
       if (loadedWorkout.value['user'] == userEmail) {
         Workout workout = Workout(
-          name: loadedWorkout.value["name"],
-          startTime: timeFormatter.parse(loadedWorkout.value["startTime"]),
-          date: dateFormatter.parse(loadedWorkout.value["date"]),
-        );
+            name: loadedWorkout.value["name"],
+            startTime: timeFormatter.parse(loadedWorkout.value["startTime"]),
+            date: dateFormatter.parse(loadedWorkout.value["date"]),
+            endTime: timeFormatter.parse(loadedWorkout.value["endTime"]));
         print("after load workot");
-        workout.setEndTime(timeFormatter.parse(loadedWorkout.value["endTime"]));
         List<Exercise> exercises =
             (json.decode(loadedWorkout.value["exercises"]) as List)
                 .map((exerciseJson) => Exercise.fromJson(exerciseJson))
@@ -87,7 +86,6 @@ class _TabsScreenState extends State<TabsScreen> {
         loadedWorkouts.add(workout);
       }
     }
-    print(loadedWorkouts);
     return loadedWorkouts;
   }
 

@@ -28,7 +28,10 @@ class NewWorkoutScreen extends StatefulWidget {
 class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
   final List<Exercise> exercises = [];
   Workout newWorkout = Workout(
-      name: "New workout", date: DateTime.now(), startTime: DateTime.now());
+      name: "New workout",
+      date: DateTime.now(),
+      startTime: DateTime.now(),
+      endTime: DateTime.now());
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,9 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
 
     bool validateExercises() {
       print("inside calidate exercised");
-      bool isCorrect = false;
+
+      List<bool> isCorrect = [];
+
       for (Exercise exercise in newWorkout.exercises) {
         for (ExerciseSets sets in exercise.sets) {
           print("inside loop");
@@ -53,12 +58,15 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
           print(sets.reps);
           print(sets.weight);
           if (sets.done == true && sets.reps > 0 && sets.weight > 0) {
-            isCorrect = true;
+            isCorrect.add(true);
+          } else {
+            isCorrect.add(false);
           }
         }
       }
 
-      return isCorrect;
+      bool allCorrect = !isCorrect.contains(false);
+      return allCorrect;
     }
 
     String getJson() {

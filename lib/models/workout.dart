@@ -2,16 +2,16 @@ import 'package:final_project/models/exercise.dart';
 import 'package:intl/intl.dart';
 
 class Workout {
-  Workout({
-    required this.name,
-    required this.date,
-    required this.startTime,
-  });
+  Workout(
+      {required this.name,
+      required this.date,
+      required this.startTime,
+      required this.endTime});
 
   String name;
   DateTime date;
   DateTime startTime;
-  late DateTime endTime;
+  DateTime endTime;
 
   final List<Exercise> exercises = [];
 
@@ -55,5 +55,23 @@ class Workout {
 
   String getFormattedDate() {
     return DateFormat('dd/MM/yy').format(date);
+  }
+
+  Duration getDuration() {
+    return endTime.difference(startTime);
+  }
+
+  String getFormattedDuration() {
+    Duration duration = endTime.difference(startTime);
+    String twoDigits(int n) {
+      if (n >= 10) return "$n";
+      return "0$n";
+    }
+
+    String hours = twoDigits(duration.inHours.remainder(24));
+    String minutes = twoDigits(duration.inMinutes.remainder(60));
+    String seconds = twoDigits(duration.inSeconds.remainder(60));
+
+    return "$hours:$minutes:$seconds";
   }
 }

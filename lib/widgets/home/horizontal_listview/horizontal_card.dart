@@ -41,12 +41,21 @@ class HorizontalCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
+                    child: Center(
+                      child: Text(
+                        workout.getFormattedDuration(),
+                        style: TextStyle(fontSize: 11),
+                      ),
+                    ),
                     alignment: Alignment.topCenter,
-                    width: 60,
-                    height: 60,
+                    width: 70,
+                    height: 70,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.red)),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 50, 219, 241),
+                          width: 3),
+                    ),
                   ),
                 ),
               ],
