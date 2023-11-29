@@ -13,9 +13,11 @@ import 'package:intl/intl.dart';
 import 'package:final_project/models/user.dart' as myUser;
 
 class NewWorkoutScreen extends StatefulWidget {
-  const NewWorkoutScreen({super.key, required this.user});
+  const NewWorkoutScreen(
+      {super.key, required this.user, required this.selectPage});
 
   final myUser.User user;
+  final Function selectPage;
 
   @override
   State<StatefulWidget> createState() {
@@ -79,6 +81,12 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
 
       String jsonSets = getJson();
 
+      setState(() {
+        if (!widget.user.workouts.contains(newWorkout)) {
+          widget.user.addWorkout(newWorkout);
+        }
+      });
+
       if (validateExercises()) {
         final url = Uri.https(
             'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
@@ -99,6 +107,11 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
             },
           ),
         );
+        setState(() {
+          setState(() {
+            widget.selectPage(2);
+          });
+        });
       } else {
         print("ikke validert all input");
       }
@@ -118,7 +131,6 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                 constraints: const BoxConstraints(maxHeight: 500, minHeight: 0),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 15),
-                  padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: const BorderRadius.all(

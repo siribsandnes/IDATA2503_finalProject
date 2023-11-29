@@ -100,6 +100,7 @@ class _TabsScreenState extends State<TabsScreen> {
     if (_selectedPageIndex == 1) {
       _activePage = NewWorkoutScreen(
         user: user,
+        selectPage: _selectPage,
       );
     }
 
