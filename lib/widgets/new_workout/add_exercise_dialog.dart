@@ -41,10 +41,10 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
         case 'Arms':
           bodyPart = BodyPart.Arms;
           break;
-        case 'UpperLegs':
+        case 'Upperlegs':
           bodyPart = BodyPart.Upperlegs;
           break;
-        case 'LowerLegs':
+        case 'Lowerlegs':
           bodyPart = BodyPart.Lowerlegs;
           break;
         case 'Shoulders':
@@ -64,7 +64,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
           // Handle a default case if needed
           bodyPart = BodyPart.Arms; // For example, setting a default value
       }
-
       Exercise exercise = Exercise(
           name: loadedExercise.value["name"], bodyPart: bodyPart, sets: []);
       setState(() {

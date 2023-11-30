@@ -46,6 +46,10 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       });
     }
 
+    for (Exercise exercise in exercises) {
+      print(exercise.bodyPart.name);
+    }
+
     bool validateExercises() {
       print("inside calidate exercised");
 
@@ -76,7 +80,6 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       }).toList();
 
       String jsonString = jsonEncode(jsonList);
-      print(jsonString);
       return jsonString;
     }
 

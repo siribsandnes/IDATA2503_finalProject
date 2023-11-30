@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:final_project/models/exercise.dart';
@@ -45,7 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             ),
-            Chart(),
+            Chart(
+              workouts: widget.workouts,
+            ),
             HorizontalListView(
               workouts: widget.workouts,
             ),

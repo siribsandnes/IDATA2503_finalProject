@@ -1,4 +1,7 @@
 import 'package:final_project/models/workout.dart';
+import 'package:final_project/screens/workout_history.dart';
+import 'package:final_project/screens/workout_screen.dart';
+import 'package:final_project/widgets/workout_history/workout_history_card.dart';
 import 'package:flutter/material.dart';
 
 class HorizontalCard extends StatelessWidget {
@@ -10,7 +13,11 @@ class HorizontalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //GO TO THE WORKOUT
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return WorkoutScreen(
+            workout: workout,
+          );
+        }));
       },
       child: Card(
         color: Colors.white,
@@ -18,7 +25,7 @@ class HorizontalCard extends StatelessWidget {
           height: 175,
           width: 175,
           child: Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               children: [
                 Row(
@@ -26,7 +33,7 @@ class HorizontalCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         workout.name, //GET FROM WORKOUT
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                         overflow: TextOverflow
                             .ellipsis, // Handle overflow with ellipsis
                         maxLines: 1, // Maximum
@@ -38,7 +45,7 @@ class HorizontalCard extends StatelessWidget {
                   children: [
                     Text(
                       workout.getFormattedDate(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Color.fromARGB(255, 44, 88, 200)),
                     ),
@@ -46,12 +53,6 @@ class HorizontalCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
-                    child: Center(
-                      child: Text(
-                        workout.getFormattedDuration(),
-                        style: TextStyle(fontSize: 11),
-                      ),
-                    ),
                     alignment: Alignment.topCenter,
                     width: 70,
                     height: 70,
@@ -60,6 +61,12 @@ class HorizontalCard extends StatelessWidget {
                       border: Border.all(
                           color: const Color.fromARGB(255, 50, 219, 241),
                           width: 3),
+                    ),
+                    child: Center(
+                      child: Text(
+                        workout.getFormattedDuration(),
+                        style: const TextStyle(fontSize: 11),
+                      ),
                     ),
                   ),
                 ),

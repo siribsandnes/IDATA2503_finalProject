@@ -1,6 +1,13 @@
 import 'package:final_project/models/exercise.dart';
 import 'package:intl/intl.dart';
 
+enum Category {
+  upper,
+  lower,
+  full,
+  legs,
+}
+
 class Workout {
   Workout(
       {required this.name,
@@ -81,5 +88,61 @@ class Workout {
     String seconds = twoDigits(duration.inSeconds.remainder(60));
 
     return "$hours:$minutes:$seconds";
+  }
+
+  Category getCategory() {
+    bool hasUpperExercises = false;
+    bool hasLowerExercises = false;
+
+    for (Exercise exercise in exercises) {
+      if (exercise.bodyPart == BodyPart.Arms ||
+          exercise.bodyPart == BodyPart.Chest ||
+          exercise.bodyPart == BodyPart.Back ||
+          exercise.bodyPart == BodyPart.Shoulders ||
+          exercise.bodyPart == BodyPart.Abs) {
+        hasUpperExercises = true;
+      } else if (exercise.bodyPart == BodyPart.Lowerlegs ||
+          exercise.bodyPart == BodyPart.Upperlegs) {
+        hasLowerExercises = true;
+      }
+    }
+
+    if (hasUpperExercises && hasLowerExercises) {
+      return Category.full;
+    } else if (hasUpperExercises) {
+      return Category.upper;
+    } else if (hasLowerExercises) {
+      return Category.lower;
+    } else {
+      return Category.legs; // or any default category as needed
+    }
+  }
+}
+
+//Represents an Workout
+class WorkoutBucket {
+  const WorkoutBucket({
+    required this.category,
+    required this.workouts,
+  });
+
+//Creates a list of workouts i the given category
+  WorkoutBucket.forCategory(List<Workout> allWorkouts, this.category)
+      : workouts = allWorkouts
+            .where((workout) => workout.getCategory() == category)
+            .toList();
+
+  final Category category;
+  final List<Workout> workouts;
+
+//Returns the total amount of workouts in a bucket
+  int get totalWorkouts {
+    int sum = 0;
+
+    for (final workout in workouts) {
+      sum += 1;
+    }
+
+    return sum;
   }
 }
