@@ -95,7 +95,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
         }
       });
 
-      if (validateExercises()) {
+      if (validateExercises() && newWorkout.exercises.isNotEmpty) {
         final url = Uri.https(
             'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
             'workout.json');
@@ -207,7 +207,9 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
                                     BorderRadius.all(Radius.circular(6)),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              widget.selectPage(2);
+                            },
                             child: const Text(
                               "Cancel workout",
                               style: TextStyle(color: Colors.black),

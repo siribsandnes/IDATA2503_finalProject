@@ -23,9 +23,14 @@ class HorizontalCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      workout.name, //GET FROM WORKOUT
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                    Expanded(
+                      child: Text(
+                        workout.name, //GET FROM WORKOUT
+                        style: TextStyle(fontWeight: FontWeight.w600),
+                        overflow: TextOverflow
+                            .ellipsis, // Handle overflow with ellipsis
+                        maxLines: 1, // Maximum
+                      ),
                     ),
                   ],
                 ),
