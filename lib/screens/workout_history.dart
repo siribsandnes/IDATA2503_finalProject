@@ -71,8 +71,29 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
             ),
           );
         }
+
+        List<Widget> workoutCards = [];
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          for (var workout in snapshot.data!) {
+            workoutCards.add(
+              WorkoutHistoryCard(
+                workout: workout,
+              ),
+            );
+          }
+        } else {
+          workoutCards.add(
+            const Center(
+              child: Text('No workout history available.'),
+            ),
+          );
+        }
+
         return SingleChildScrollView(
           child: Container(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height - 100,
+            ),
             height: double.maxFinite,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,9 +106,10 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                         Text(
                           "Workout History",
                           style: TextStyle(
-                              fontSize: 25,
-                              color: Color.fromARGB(255, 34, 67, 153),
-                              fontWeight: FontWeight.bold),
+                            fontSize: 25,
+                            color: Color.fromARGB(255, 34, 67, 153),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     )
@@ -97,13 +119,8 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
                   height: 10,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: ((context, index) {
-                      return WorkoutHistoryCard(
-                        workout: snapshot.data![index],
-                      );
-                    }),
+                  child: Column(
+                    children: workoutCards,
                   ),
                 ),
               ],
