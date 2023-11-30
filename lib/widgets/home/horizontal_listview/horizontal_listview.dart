@@ -37,6 +37,7 @@ class _HorizontalListViewState extends State<HorizontalListView> {
           Container(
             height: 175,
             child: ListView.builder(
+              reverse: true,
               itemCount: widget.workouts.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: ((context, index) {

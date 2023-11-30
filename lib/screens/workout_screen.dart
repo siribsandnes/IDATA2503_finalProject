@@ -39,34 +39,28 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                ConstrainedBox(
-                  constraints:
-                      const BoxConstraints(maxHeight: 1000, minHeight: 0),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(6),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 207, 207, 207)
-                              .withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 2,
-                          offset: const Offset(0, 1),
-                        )
-                      ],
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(6),
                     ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: widget.workout.exercises.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return FinishedExerciseContainer(
-                            exercise: widget.workout.exercises[index]);
-                      },
-                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: const Color.fromARGB(255, 207, 207, 207)
+                            .withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 2,
+                        offset: const Offset(0, 1),
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      for (var exercise in widget.workout.exercises)
+                        FinishedExerciseContainer(exercise: exercise),
+                    ],
                   ),
                 ),
               ],
