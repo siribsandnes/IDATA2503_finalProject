@@ -29,6 +29,14 @@ class Exercise {
     sets.add(set);
   }
 
+  double getTotalWeightsPErExercise() {
+    double weight = 0;
+    for (ExerciseSets set in sets) {
+      weight += set.weight;
+    }
+    return weight;
+  }
+
   List<Map<String, dynamic>> setsToJson() {
     return sets.map((exerciseSet) {
       return {

@@ -61,6 +61,14 @@ class Workout {
     return endTime.difference(startTime);
   }
 
+  double getTotalWeights() {
+    double weight = 0;
+    for (Exercise exercise in exercises) {
+      weight += exercise.getTotalWeightsPErExercise();
+    }
+    return weight;
+  }
+
   String getFormattedDuration() {
     Duration duration = endTime.difference(startTime);
     String twoDigits(int n) {
