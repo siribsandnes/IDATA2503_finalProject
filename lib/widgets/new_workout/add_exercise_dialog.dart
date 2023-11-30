@@ -19,12 +19,39 @@ class AddExerciseDialog extends StatefulWidget {
 class _AddExerciseDialogState extends State<AddExerciseDialog> {
   List<Exercise> exercises = []; // NEEDS TO GET EXERCISES FROM DATABASE
   List<Exercise> addedExercises = [];
+  List<Exercise> _originalExercises = [];
+
+  late TextEditingController _searchController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _loadExercises();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _filterExercises(String searchText) {
+    setState(() {
+      if (searchText.isEmpty) {
+        // If the search text is empty, reset to the original exercises list
+        exercises = List.from(_originalExercises);
+      } else {
+        // Filter the original exercises list based on the search text
+        exercises = _originalExercises.where((exercise) {
+          return exercise
+              .getName()
+              .toLowerCase()
+              .contains(searchText.toLowerCase());
+        }).toList();
+      }
+    });
   }
 
   Future _loadExercises() async {
@@ -59,15 +86,14 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
         case 'Chest':
           bodyPart = BodyPart.Chest;
           break;
-        // Add other cases for additional body parts
         default:
-          // Handle a default case if needed
-          bodyPart = BodyPart.Arms; // For example, setting a default value
+          bodyPart = BodyPart.Arms;
       }
       Exercise exercise = Exercise(
           name: loadedExercise.value["name"], bodyPart: bodyPart, sets: []);
       setState(() {
         exercises.add(exercise);
+        _originalExercises = List.from(exercises);
       });
     }
   }
@@ -179,25 +205,23 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: SearchBar(
-                            textStyle: const MaterialStatePropertyAll(
-                              TextStyle(
-                                  color: Color.fromARGB(255, 44, 88, 200)),
-                            ),
-                            leading: const Icon(
-                              Icons.search,
-                              color: Color.fromARGB(255, 44, 88, 200),
-                            ),
-                            hintText: "Search...",
-                            elevation: MaterialStatePropertyAll(0),
-                            shape: MaterialStateProperty.all(
-                              const ContinuousRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20)),
+                          child: TextFormField(
+                            controller: _searchController,
+                            onChanged: (value) {
+                              _filterExercises(value);
+                            },
+                            decoration: InputDecoration(
+                              hintText: "Search...",
+                              prefixIcon: Icon(Icons.search),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide
+                                    .none, // Remove the color of the border
+                                borderRadius: BorderRadius.circular(
+                                    6), // Optional border radius
                               ),
+                              filled: true,
+                              fillColor: Color.fromARGB(255, 216, 224, 245),
                             ),
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 216, 224, 245)),
                           ),
                         ),
                         IconButton(
@@ -212,7 +236,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                     ),
                     Text(
                       warning,
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     ),
                     const Divider(),
                     ConstrainedBox(
@@ -243,8 +267,9 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: selected[index]
-                                            ? Color.fromARGB(255, 163, 240, 166)
-                                            : Color.fromARGB(
+                                            ? const Color.fromARGB(
+                                                255, 163, 240, 166)
+                                            : const Color.fromARGB(
                                                 255, 216, 224, 245),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
@@ -271,7 +296,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                     children: [
                                       Text(
                                         exercises[index].getName(),
-                                        style: TextStyle(fontSize: 16),
+                                        style: const TextStyle(fontSize: 16),
                                       ),
                                       Text(
                                         exercises[index].bodyPart.name,
