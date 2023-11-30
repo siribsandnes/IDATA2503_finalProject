@@ -71,13 +71,45 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
             ),
           );
         }
-        return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: ((context, index) {
-              return WorkoutHistoryCard(
-                workout: snapshot.data![index],
-              );
-            }));
+        return SingleChildScrollView(
+          child: Container(
+            height: double.maxFinite,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Workout History",
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Color.fromARGB(255, 34, 67, 153),
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: ((context, index) {
+                      return WorkoutHistoryCard(
+                        workout: snapshot.data![index],
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       }),
     );
   }
