@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:final_project/models/exercise.dart';
 import 'package:final_project/widgets/new_workout/new_exercise_dialog.dart';
@@ -41,17 +42,29 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     setState(() {
       if (searchText.isEmpty) {
         // If the search text is empty, reset to the original exercises list
-        exercises = List.from(_originalExercises);
+        setState(() {
+          exercises = List.from(_originalExercises);
+        });
       } else {
         // Filter the original exercises list based on the search text
-        exercises = _originalExercises.where((exercise) {
-          return exercise
-              .getName()
-              .toLowerCase()
-              .contains(searchText.toLowerCase());
-        }).toList();
+        setState(() {
+          exercises = _originalExercises.where((exercise) {
+            return exercise
+                .getName()
+                .toLowerCase()
+                .contains(searchText.toLowerCase());
+          }).toList();
+        });
       }
     });
+  }
+
+  bool exerciseIsSelected(Exercise exercise) {
+    if (addedExercises.contains(exercise)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future _loadExercises() async {
@@ -127,7 +140,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> selected = List.generate(exercises.length, (i) => false);
     String warning = "";
 
     return Theme(
@@ -255,7 +267,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                       .contains(exercises[index])) {
                                     addedExercises.add(exercises[index]);
                                   }
-                                  selected[index] = !selected[index];
                                 });
                               },
                               title: Row(
@@ -266,11 +277,12 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                     width: 40,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        color: selected[index]
-                                            ? const Color.fromARGB(
-                                                255, 163, 240, 166)
-                                            : const Color.fromARGB(
-                                                255, 216, 224, 245),
+                                        color:
+                                            exerciseIsSelected(exercises[index])
+                                                ? const Color.fromARGB(
+                                                    255, 163, 240, 166)
+                                                : const Color.fromARGB(
+                                                    255, 216, 224, 245),
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(5),
                                         ),

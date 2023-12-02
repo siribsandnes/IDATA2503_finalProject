@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       children: [
                         Text(
-                          "Hi! ${user!.firstname}",
+                          "Hi ${user!.firstname}!",
                           style: const TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 26, 53, 121),

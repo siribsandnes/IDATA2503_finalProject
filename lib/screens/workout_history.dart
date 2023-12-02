@@ -69,43 +69,53 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
             child: Text("error"),
           );
         }
-        return SingleChildScrollView(
-          child: Container(
-            height: double.maxFinite,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Column(
+        return Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Workout History",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Color.fromARGB(255, 34, 67, 153),
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    )
+                    Text(
+                      'Workout History',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 34, 67, 153),
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: ((context, index) {
-                      return WorkoutHistoryCard(
-                        workout: snapshot.data![index],
+              ),
+              Expanded(
+                child: FutureBuilder(
+                  future: _loadedWorkouts,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
-                  ),
+                    }
+                    if (snapshot.hasError) {
+                      return const Center(
+                        child: Text("Error"),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        return WorkoutHistoryCard(
+                          workout: snapshot.data![index],
+                        );
+                      },
+                    );
+                  },
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       }),
