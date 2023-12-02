@@ -60,25 +60,6 @@ class MainDrawer extends StatelessWidget {
             //Element in the menu drawer that pops out
             ListTile(
               leading: const Icon(
-                Icons.settings_outlined,
-                size: 26,
-                color: Colors.white,
-              ),
-              title: Text(
-                'Settings',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: Colors.white, fontSize: 24),
-              ),
-              onTap: () {
-                onSelectScreen('settings');
-              },
-            ),
-
-            //Element in the menu drawer that pops out
-            ListTile(
-              leading: const Icon(
                 Icons.logout_outlined,
                 size: 26,
                 color: Colors.white,
