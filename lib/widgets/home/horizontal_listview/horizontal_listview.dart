@@ -19,7 +19,7 @@ class _HorizontalListViewState extends State<HorizontalListView> {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
       child: Column(
         children: [
-          Row(
+          const Row(
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
@@ -31,22 +31,35 @@ class _HorizontalListViewState extends State<HorizontalListView> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          Container(
-            height: 175,
-            child: ListView.builder(
-              reverse: true,
-              itemCount: widget.workouts.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: ((context, index) {
-                return HorizontalCard(
-                  workout: widget.workouts[index],
-                );
-              }),
-            ),
-          )
+          widget.workouts.isEmpty
+              ? const SizedBox(
+                  height: 175,
+                  child: Center(
+                    child: Text(
+                      'No recent workouts...',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                )
+              : SizedBox(
+                  height: 175,
+                  child: ListView.builder(
+                    reverse: true,
+                    itemCount: widget.workouts.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: ((context, index) {
+                      return HorizontalCard(
+                        workout: widget.workouts[index],
+                      );
+                    }),
+                  ),
+                ),
         ],
       ),
     );
