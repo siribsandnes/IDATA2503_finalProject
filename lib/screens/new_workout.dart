@@ -7,6 +7,7 @@ import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/new_workout/exercise_container.dart';
 import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
 import 'package:final_project/widgets/new_workout/add_exercise_dialog.dart';
+import 'package:final_project/widgets/new_workout/workout_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -129,125 +130,136 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
     }
 
     return Container(
-        padding: const EdgeInsets.all(10),
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              NewWorkoutHeader(workout: newWorkout),
-              const SizedBox(
-                height: 10,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            NewWorkoutHeader(workout: newWorkout),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Time elapsed: ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  WorkoutTimer(startTime: newWorkout.startTime),
+                ],
               ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 500, minHeight: 0),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 15),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(6),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color.fromARGB(255, 207, 207, 207)
-                            .withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 2,
-                        offset: const Offset(0, 1),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 500, minHeight: 0),
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(6),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 207, 207, 207)
+                          .withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 2,
+                      offset: const Offset(0, 1),
+                    )
+                  ],
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: exercises.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ExerciseContainer(exercise: exercises[index]);
+                  },
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Theme(
+                          data: ThemeData(),
+                          child: ElevatedButton(
+                              onPressed: () {
+                                addExercise();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 255, 255, 255),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6)),
+                                ),
+                              ),
+                              child: const Text(
+                                "Add Exercise",
+                                style: TextStyle(color: Colors.black),
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 107, 107),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                            ),
+                          ),
+                          onPressed: () {
+                            widget.selectPage(2);
+                          },
+                          child: const Text(
+                            "Cancel workout",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 163, 240, 166),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                            ),
+                          ),
+                          onPressed: () {
+                            saveWorkout();
+                          },
+                          child: const Text(
+                            "Finish workout",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
                       )
                     ],
                   ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: exercises.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ExerciseContainer(exercise: exercises[index]);
-                    },
-                  ),
-                ),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Theme(
-                            data: ThemeData(),
-                            child: ElevatedButton(
-                                onPressed: () {
-                                  addExercise();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 255, 255, 255),
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)),
-                                  ),
-                                ),
-                                child: const Text(
-                                  "Add Exercise",
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 255, 107, 107),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
-                              ),
-                            ),
-                            onPressed: () {
-                              widget.selectPage(2);
-                            },
-                            child: const Text(
-                              "Cancel workout",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 163, 240, 166),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
-                              ),
-                            ),
-                            onPressed: () {
-                              saveWorkout();
-                            },
-                            child: const Text(
-                              "Finish workout",
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ));
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

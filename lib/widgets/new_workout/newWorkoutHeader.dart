@@ -1,4 +1,5 @@
 import 'package:final_project/models/workout.dart';
+import 'package:final_project/widgets/new_workout/workout_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -55,7 +56,7 @@ class _NewWorkoutHeaderState extends State<NewWorkoutHeader> {
                 });
               },
             ),
-          )
+          ),
         ],
       ),
     );

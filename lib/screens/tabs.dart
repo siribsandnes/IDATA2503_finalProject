@@ -139,6 +139,7 @@ class _TabsScreenState extends State<TabsScreen> {
       backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
+        foregroundColor: Color.fromARGB(1000, 34, 67, 153),
       ),
       body: FutureBuilder(
         future: _loadedUser,
