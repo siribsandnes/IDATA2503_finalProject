@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 import 'package:final_project/models/exercise.dart';
-import 'package:final_project/models/user.dart' as myUser;
+import 'package:final_project/models/user.dart' as myuser;
 import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/home/chart/chart.dart';
 import 'package:final_project/widgets/home/horizontal_listview/horizontal_listview.dart';
@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<myUser.User> _loadedUser;
+  late Future<myuser.User> _loadedUser;
   late Future<List<Workout>> _loadedWorkouts;
   final userEmail = FirebaseAuth.instance.currentUser!.email;
 
@@ -32,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _loadedWorkouts = _loadWorkouts();
   }
 
-  Future<myUser.User> _loadUser() async {
+  /// Loads the user from the db and saves it in a user.
+  Future<myuser.User> _loadUser() async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
         'user.json');
@@ -43,10 +44,10 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     final Map<String, dynamic> loadedUsers = json.decode(response.body);
-    late myUser.User user;
+    late myuser.User user;
     for (final loadedUser in loadedUsers.entries) {
       if (loadedUser.value['email'] == userEmail) {
-        user = myUser.User(
+        user = myuser.User(
             firstname: loadedUser.value['firstname'],
             lastname: loadedUser.value['lastname'],
             email: loadedUser.value['email']);
@@ -55,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return user;
   }
 
+// Loads the users workouts from the databse and saves it in a list of workouts.
   Future<List<Workout>> _loadWorkouts() async {
     DateFormat timeFormatter = DateFormat('HH:mm:ss');
     DateFormat dateFormatter = DateFormat('MM/dd/yy');
@@ -71,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
             startTime: timeFormatter.parse(loadedWorkout.value["startTime"]),
             date: dateFormatter.parse(loadedWorkout.value["date"]),
             endTime: timeFormatter.parse(loadedWorkout.value["endTime"]));
-        print("after load workot");
+
         List<Exercise> exercises =
             (json.decode(loadedWorkout.value["exercises"]) as List)
                 .map((exerciseJson) => Exercise.fromJson(exerciseJson))
@@ -83,18 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
     return loadedWorkouts;
   }
 
+// Calculates the number of workouts within the current week based on a provided list of all workouts. Returns the number of workouts.
   int calculateWorkoutsForCurrentWeek(List<Workout> allWorkouts) {
-    print(allWorkouts.length);
     DateTime now = DateTime.now();
     DateTime weekStart = now.subtract(Duration(days: now.weekday - 1));
-    DateTime weekEnd = weekStart.add(Duration(days: 6));
+    DateTime weekEnd = weekStart.add(const Duration(days: 6));
 
     List<Workout> workoutsInWeek = allWorkouts.where((workout) {
       DateTime workoutDate = workout.date;
       return workoutDate.isAfter(weekStart) && workoutDate.isBefore(weekEnd);
     }).toList();
 
-    print(workoutsInWeek.length);
     return workoutsInWeek.length;
   }
 
@@ -104,8 +105,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text("loading"),
     );
 
+// Future builder to make sure that the build still works if loadning data takes time or errors.
     return FutureBuilder(
-      future: _loadedUser,
+      future: _loadedUser, //Futurebuilder for the loaded user
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           content = const Center(
@@ -122,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
         if (snapshot.hasData) {
           final user = snapshot.data;
           content = Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -141,6 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   FutureBuilder(
+                    ///Futurebuilder for the loaded workouts
                     future: _loadedWorkouts,
                     builder: (context, snapshot2) {
                       if (snapshot2.connectionState ==
@@ -162,10 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           workouts: workouts!,
                         );
                       }
-                      return Chart(workouts: []);
+                      return const Chart(workouts: []);
                     },
                   ),
                   FutureBuilder(
+
+                      ///Futurebuilder for the loaded workouts
                       future: _loadedWorkouts,
                       builder: (context, snapshot2) {
                         if (snapshot2.connectionState ==
@@ -190,6 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         return const HorizontalListView(workouts: []);
                       }),
                   FutureBuilder(
+
+                      ///Futurebuilder for the loaded workouts
                       future: _loadedWorkouts,
                       builder: (context, snapshot2) {
                         if (snapshot2.connectionState ==

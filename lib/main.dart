@@ -1,6 +1,4 @@
-import 'package:final_project/screens/authentication/log_in.dart';
 import 'package:final_project/screen_display/main.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +46,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: MainScreen(),
+      home: const MainScreen(),
     );
   }
 }

@@ -1,6 +1,4 @@
 import 'package:final_project/screen_display/auth.dart';
-import 'package:final_project/screens/home.dart';
-import 'package:final_project/screens/authentication/log_in.dart';
 import 'package:final_project/screens/tabs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:flutter/material.dart';
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
+  /// Sets the screen based on if a user is logged in or not.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,9 +14,9 @@ class MainScreen extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return TabsScreen();
+            return const TabsScreen();
           } else {
-            return AuthScreen();
+            return const AuthScreen();
           }
         },
       ),

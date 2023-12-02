@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -26,7 +25,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-//Signs upp a new user
+//Signs upp a new user. First it checks if the user input is valid or not.
   Future signUp() async {
     //Create user
     if (_formKey.currentState!.validate()) {
@@ -45,11 +44,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
+  /// Saves a new user to the Firebase realtime database.
   Future saveUser(String firstname, String lastname, String email) async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
         'user.json');
-    final response = await http.post(
+    await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -62,11 +62,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
       ),
     );
-
-    print(response.body);
-    print(response.statusCode);
   }
 
+  /// Checks if email is valid using regexp
   bool emailIsValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -80,6 +78,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  /// Returns a scaffold.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -270,7 +269,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       value.isEmpty ||
                                       value.trim().length < 6) {
                                     return "Password must be at least 6 characters";
-                                  } else if (value! !=
+                                  } else if (value !=
                                       _enteredPasswordController.text) {
                                     return "The password does not match";
                                   }

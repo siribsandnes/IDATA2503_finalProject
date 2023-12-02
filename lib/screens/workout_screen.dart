@@ -1,17 +1,9 @@
-import 'dart:convert';
-import 'dart:math';
-
-import 'package:final_project/models/exercise.dart';
-import 'package:final_project/models/exerciseSets.dart';
 import 'package:final_project/models/workout.dart';
-import 'package:final_project/widgets/new_workout/exercise_container.dart';
+
 import 'package:final_project/widgets/new_workout/newWorkoutHeader.dart';
-import 'package:final_project/widgets/new_workout/add_exercise_dialog.dart';
+
 import 'package:final_project/widgets/workout_history/finishedExerciseContainer.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:final_project/models/user.dart' as myUser;
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key, required this.workout});

@@ -1,0 +1,505 @@
+@startuml
+set namespaceSeparator ::
+
+class "final_project::screen_display::auth.dart::AuthScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screen_display::auth.dart::AuthScreen"
+
+class "final_project::screen_display::auth.dart::_AuthScreenState" {
+  +bool showLoginPage
+  +void toggleScreen()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screen_display::auth.dart::_AuthScreenState"
+
+class "final_project::screen_display::main.dart::MainScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::screen_display::main.dart::MainScreen"
+
+class "final_project::models::exercise.dart::Exercise" {
+  +String name
+  +BodyPart bodyPart
+  +List<ExerciseSets> sets
+  +String getName()
+  +String getbodyPart()
+  +void addSet()
+  +double getTotalWeightsPErExercise()
+  +List<Map<String, dynamic>> setsToJson()
+  +Map<String, dynamic> toJson()
+  {static} -BodyPart _getBodyPartFromString()
+}
+
+"final_project::models::exercise.dart::Exercise" o-- "final_project::models::exercise.dart::BodyPart"
+
+class "final_project::models::exercise.dart::BodyPart" {
+  +int index
+  {static} +List<BodyPart> values
+  {static} +BodyPart Chest
+  {static} +BodyPart Shoulders
+  {static} +BodyPart Arms
+  {static} +BodyPart Upperlegs
+  {static} +BodyPart Lowerlegs
+  {static} +BodyPart Back
+  {static} +BodyPart Abs
+}
+
+"final_project::models::exercise.dart::BodyPart" o-- "final_project::models::exercise.dart::BodyPart"
+"dart::core::Enum" <|-- "final_project::models::exercise.dart::BodyPart"
+
+class "final_project::models::workout.dart::Workout" {
+  +String name
+  +DateTime date
+  +DateTime startTime
+  +DateTime endTime
+  +List<Exercise> exercises
+  +void addExercise()
+  +String getName()
+  +void setName()
+  +DateTime getDate()
+  +DateTime getStartTime()
+  +void setEndTime()
+  +void setDate()
+  +void setStarttime()
+  +void addExercises()
+  +String getFormattedDate()
+  +Duration getDuration()
+  +double getTotalWeights()
+  +String getFormattedDuration()
+  +Category getCategory()
+}
+
+class "final_project::models::workout.dart::WorkoutBucket" {
+  +Category category
+  +List<Workout> workouts
+  +int totalWorkouts
+}
+
+"final_project::models::workout.dart::WorkoutBucket" o-- "final_project::models::workout.dart::Category"
+
+class "final_project::models::workout.dart::Category" {
+  +int index
+  {static} +List<Category> values
+  {static} +Category upper
+  {static} +Category lower
+  {static} +Category full
+  {static} +Category legs
+}
+
+"final_project::models::workout.dart::Category" o-- "final_project::models::workout.dart::Category"
+"dart::core::Enum" <|-- "final_project::models::workout.dart::Category"
+
+class "final_project::models::user.dart::User" {
+  +String firstname
+  +String lastname
+  +String email
+  +List<Workout> workouts
+  +void addWorkout()
+  +void printUser()
+}
+
+class "final_project::models::exerciseSets.dart::ExerciseSets" {
+  +double weight
+  +int reps
+  +bool done
+  +double getWeight()
+  +int getReps()
+  +bool getDone()
+  +void setWeight()
+  +void setReps()
+  +void setDone()
+}
+
+class "final_project::screens::home.dart::HomeScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::home.dart::HomeScreen"
+
+class "final_project::screens::home.dart::_HomeScreenState" {
+  -dynamic _loadedUser
+  -dynamic _loadedWorkouts
+  +String? userEmail
+  +void initState()
+  -dynamic _loadUser()
+  -dynamic _loadWorkouts()
+  +int calculateWorkoutsForCurrentWeek()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::home.dart::_HomeScreenState"
+
+class "final_project::screens::profile.dart::ProfileScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::profile.dart::ProfileScreen"
+
+class "final_project::screens::profile.dart::_ProfileScreenState" {
+  -dynamic _loadedUser
+  +String? userEmail
+  +User user
+  -GlobalKey<FormState> _passwordController
+  -GlobalKey<FormState> _formKey
+  -String _enteredFirstname
+  -String _enteredLastname
+  -String _enteredEmail
+  -String _enteredPassword
+  -String _userid
+  +bool editEnabled
+  +void initState()
+  -dynamic _loadUser()
+  +bool validatePassword()
+  +void update()
+  +dynamic updateUser()
+  +bool emailIsValid()
+  +Widget build()
+}
+
+"final_project::screens::profile.dart::_ProfileScreenState" o-- "firebase_auth::firebase_auth.dart::User"
+"final_project::screens::profile.dart::_ProfileScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::profile.dart::_ProfileScreenState"
+
+class "final_project::screens::new_workout.dart::NewWorkoutScreen" {
+  +User user
+  +Function selectPage
+  +State<StatefulWidget> createState()
+}
+
+"final_project::screens::new_workout.dart::NewWorkoutScreen" o-- "final_project::models::user.dart::User"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::new_workout.dart::NewWorkoutScreen"
+
+class "final_project::screens::new_workout.dart::_NewWorkoutScreenState" {
+  +List<Exercise> exercises
+  +Workout newWorkout
+  +Widget build()
+}
+
+"final_project::screens::new_workout.dart::_NewWorkoutScreenState" o-- "final_project::models::workout.dart::Workout"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::new_workout.dart::_NewWorkoutScreenState"
+
+class "final_project::screens::tabs.dart::TabsScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::tabs.dart::TabsScreen"
+
+class "final_project::screens::tabs.dart::_TabsScreenState" {
+  -int _selectedPageIndex
+  -GlobalKey<CurvedNavigationBarState> _bottomNavigationKey
+  -dynamic _loadedUser
+  -dynamic _loadedWorkouts
+  +String? userEmail
+  +void initState()
+  -dynamic _loadUser()
+  -dynamic _loadWorkouts()
+  -dynamic _setScreen()
+  -void _selectPage()
+  +Widget build()
+}
+
+"final_project::screens::tabs.dart::_TabsScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<CurvedNavigationBarState>"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::tabs.dart::_TabsScreenState"
+
+class "final_project::screens::workout_history.dart::WorkoutHistoryScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::workout_history.dart::WorkoutHistoryScreen"
+
+class "final_project::screens::workout_history.dart::_WorkoutHistoryScreenState" {
+  -dynamic _loadedWorkouts
+  +String? userEmail
+  +void initState()
+  -dynamic _loadWorkouts()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::workout_history.dart::_WorkoutHistoryScreenState"
+
+class "final_project::screens::authentication::forgot_password.dart::ForgotPasswordScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::authentication::forgot_password.dart::ForgotPasswordScreen"
+
+class "final_project::screens::authentication::forgot_password.dart::_ForgotPasswordScreenState" {
+  -GlobalKey<FormState> _formKey
+  -String _enteredMail
+  +bool emailIsValid()
+  +dynamic resetPassword()
+  +Widget build()
+}
+
+"final_project::screens::authentication::forgot_password.dart::_ForgotPasswordScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::authentication::forgot_password.dart::_ForgotPasswordScreenState"
+
+class "final_project::screens::authentication::log_in.dart::LogInScreen" {
+  +void Function() showRegisterPage
+  +State<StatefulWidget> createState()
+}
+
+"final_project::screens::authentication::log_in.dart::LogInScreen" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::authentication::log_in.dart::LogInScreen"
+
+class "final_project::screens::authentication::log_in.dart::_LogInScreenState" {
+  -GlobalKey<FormState> _formKey
+  -String _enteredMail
+  -String _enteredPassword
+  -dynamic _signIn()
+  +bool emailIsValid()
+  +Widget build()
+}
+
+"final_project::screens::authentication::log_in.dart::_LogInScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::authentication::log_in.dart::_LogInScreenState"
+
+class "final_project::screens::authentication::sign_up.dart::SignUpScreen" {
+  +void Function() showLoginPage
+  +State<StatefulWidget> createState()
+}
+
+"final_project::screens::authentication::sign_up.dart::SignUpScreen" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::authentication::sign_up.dart::SignUpScreen"
+
+class "final_project::screens::authentication::sign_up.dart::_SignUpScreenState" {
+  -GlobalKey<FormState> _formKey
+  -String _enteredFirstName
+  -String _enteredLastName
+  -String _enteredEmail
+  -TextEditingController _enteredPasswordController
+  -TextEditingController _confirmPasswordController
+  +dynamic signUp()
+  +dynamic saveUser()
+  +bool emailIsValid()
+  +void dispose()
+  +Widget build()
+}
+
+"final_project::screens::authentication::sign_up.dart::_SignUpScreenState" o-- "flutter::src::widgets::framework.dart::GlobalKey<FormState>"
+"final_project::screens::authentication::sign_up.dart::_SignUpScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::authentication::sign_up.dart::_SignUpScreenState"
+
+class "final_project::screens::settings.dart::SettingsScreen" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::settings.dart::SettingsScreen"
+
+class "final_project::screens::settings.dart::_SettingsScreenState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::settings.dart::_SettingsScreenState"
+
+class "final_project::screens::workout_screen.dart::WorkoutScreen" {
+  +Workout workout
+  +State<StatefulWidget> createState()
+}
+
+"final_project::screens::workout_screen.dart::WorkoutScreen" o-- "final_project::models::workout.dart::Workout"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::screens::workout_screen.dart::WorkoutScreen"
+
+class "final_project::screens::workout_screen.dart::_WorkoutScreenState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::screens::workout_screen.dart::_WorkoutScreenState"
+
+class "final_project::main.dart::App" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::main.dart::App"
+
+class "final_project::widgets::home::chart::chart_bar.dart::ChartBar" {
+  +double fill
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::home::chart::chart_bar.dart::ChartBar"
+
+class "final_project::widgets::home::chart::chart.dart::Chart" {
+  +List<Workout> workouts
+  +List<WorkoutBucket> buckets
+  +int maxTotalExpense
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::home::chart::chart.dart::Chart"
+
+class "final_project::widgets::home::timer::timer.dart::Timer" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::home::timer::timer.dart::Timer"
+
+class "final_project::widgets::home::timer::timer.dart::_TimerState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::home::timer::timer.dart::_TimerState"
+
+class "final_project::widgets::home::horizontal_listview::horizontal_card.dart::HorizontalCard" {
+  +Workout workout
+  +Widget build()
+}
+
+"final_project::widgets::home::horizontal_listview::horizontal_card.dart::HorizontalCard" o-- "final_project::models::workout.dart::Workout"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::home::horizontal_listview::horizontal_card.dart::HorizontalCard"
+
+class "final_project::widgets::home::horizontal_listview::horizontal_listview.dart::HorizontalListView" {
+  +List<Workout> workouts
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::home::horizontal_listview::horizontal_listview.dart::HorizontalListView"
+
+class "final_project::widgets::home::horizontal_listview::horizontal_listview.dart::_HorizontalListViewState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::home::horizontal_listview::horizontal_listview.dart::_HorizontalListViewState"
+
+class "final_project::widgets::workout_history::finished_exercise_set.dart::FinishedExerciseSet" {
+  +List<ExerciseSets> exerciseSets
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::workout_history::finished_exercise_set.dart::FinishedExerciseSet"
+
+class "final_project::widgets::workout_history::finishedExerciseContainer.dart::FinishedExerciseContainer" {
+  +Exercise exercise
+  +Widget build()
+}
+
+"final_project::widgets::workout_history::finishedExerciseContainer.dart::FinishedExerciseContainer" o-- "final_project::models::exercise.dart::Exercise"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::workout_history::finishedExerciseContainer.dart::FinishedExerciseContainer"
+
+class "final_project::widgets::workout_history::workout_history_card.dart::WorkoutHistoryCard" {
+  +Workout workout
+  +Widget build()
+}
+
+"final_project::widgets::workout_history::workout_history_card.dart::WorkoutHistoryCard" o-- "final_project::models::workout.dart::Workout"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::workout_history::workout_history_card.dart::WorkoutHistoryCard"
+
+class "final_project::widgets::new_workout::newWorkoutHeader.dart::NewWorkoutHeader" {
+  +Workout workout
+  +State<StatefulWidget> createState()
+}
+
+"final_project::widgets::new_workout::newWorkoutHeader.dart::NewWorkoutHeader" o-- "final_project::models::workout.dart::Workout"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::newWorkoutHeader.dart::NewWorkoutHeader"
+
+class "final_project::widgets::new_workout::newWorkoutHeader.dart::_NewWorkoutHeaderState" {
+  +TextEditingController workoutController
+  +void initState()
+  +Widget build()
+}
+
+"final_project::widgets::new_workout::newWorkoutHeader.dart::_NewWorkoutHeaderState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::newWorkoutHeader.dart::_NewWorkoutHeaderState"
+
+class "final_project::widgets::new_workout::exercise_set.dart::ExerciseSet" {
+  +List<ExerciseSets> exerciseSets
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::exercise_set.dart::ExerciseSet"
+
+class "final_project::widgets::new_workout::exercise_set.dart::_ExerciseSetState" {
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::exercise_set.dart::_ExerciseSetState"
+
+class "final_project::widgets::new_workout::workout_timer.dart::WorkoutTimer" {
+  +DateTime startTime
+  +_WorkoutTimerState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::workout_timer.dart::WorkoutTimer"
+
+class "final_project::widgets::new_workout::workout_timer.dart::_WorkoutTimerState" {
+  -Timer _timer
+  -Duration _elapsedTime
+  +void initState()
+  +void dispose()
+  -void _startTimer()
+  +Widget build()
+}
+
+"final_project::widgets::new_workout::workout_timer.dart::_WorkoutTimerState" o-- "dart::async::Timer"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::workout_timer.dart::_WorkoutTimerState"
+
+class "final_project::widgets::new_workout::exercise_container.dart::ExerciseContainer" {
+  +Exercise exercise
+  +State<StatefulWidget> createState()
+}
+
+"final_project::widgets::new_workout::exercise_container.dart::ExerciseContainer" o-- "final_project::models::exercise.dart::Exercise"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::exercise_container.dart::ExerciseContainer"
+
+class "final_project::widgets::new_workout::exercise_container.dart::_ExerciseContainerState" {
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::exercise_container.dart::_ExerciseContainerState"
+
+class "final_project::widgets::new_workout::add_exercise_dialog.dart::AddExerciseDialog" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::add_exercise_dialog.dart::AddExerciseDialog"
+
+class "final_project::widgets::new_workout::add_exercise_dialog.dart::_AddExerciseDialogState" {
+  +List<Exercise> exercises
+  +List<Exercise> addedExercises
+  -List<Exercise> _originalExercises
+  -TextEditingController _searchController
+  +void initState()
+  +void dispose()
+  -void _filterExercises()
+  +bool exerciseIsSelected()
+  -dynamic _loadExercises()
+  +dynamic saveExercise()
+  +void addNewExercise()
+  +Widget build()
+}
+
+"final_project::widgets::new_workout::add_exercise_dialog.dart::_AddExerciseDialogState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::add_exercise_dialog.dart::_AddExerciseDialogState"
+
+class "final_project::widgets::new_workout::new_exercise_dialog.dart::NewExerciseDialog" {
+  +State<StatefulWidget> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "final_project::widgets::new_workout::new_exercise_dialog.dart::NewExerciseDialog"
+
+class "final_project::widgets::new_workout::new_exercise_dialog.dart::_NewExerciseDialogState" {
+  +List<BodyPart> dropDownElements
+  -BodyPart _selectedBodyPart
+  -String _exerciseName
+  +Widget build()
+}
+
+"final_project::widgets::new_workout::new_exercise_dialog.dart::_NewExerciseDialogState" o-- "final_project::models::exercise.dart::BodyPart"
+"flutter::src::widgets::framework.dart::State" <|-- "final_project::widgets::new_workout::new_exercise_dialog.dart::_NewExerciseDialogState"
+
+class "final_project::widgets::main_drawer.dart::MainDrawer" {
+  +dynamic Function(String) onSelectScreen
+  +Widget build()
+}
+
+"final_project::widgets::main_drawer.dart::MainDrawer" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "final_project::widgets::main_drawer.dart::MainDrawer"
+
+
+@enduml

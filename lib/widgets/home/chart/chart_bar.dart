@@ -17,12 +17,11 @@ class ChartBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: FractionallySizedBox(
           heightFactor: fill,
-          child: DecoratedBox(
+          child: const DecoratedBox(
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                borderRadius:
-                    const BorderRadius.vertical(top: Radius.circular(8)),
-                color: const Color.fromARGB(255, 50, 219, 241)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                color: Color.fromARGB(255, 50, 219, 241)),
           ),
         ),
       ),

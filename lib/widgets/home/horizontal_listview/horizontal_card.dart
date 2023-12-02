@@ -1,7 +1,7 @@
 import 'package:final_project/models/workout.dart';
-import 'package:final_project/screens/workout_history.dart';
+
 import 'package:final_project/screens/workout_screen.dart';
-import 'package:final_project/widgets/workout_history/workout_history_card.dart';
+
 import 'package:flutter/material.dart';
 
 class HorizontalCard extends StatelessWidget {

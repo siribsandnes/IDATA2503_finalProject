@@ -18,7 +18,7 @@ class WorkoutHistoryCard extends StatelessWidget {
               );
             }));
           },
-          splashColor: Color.fromARGB(98, 44, 88, 200),
+          splashColor: const Color.fromARGB(98, 44, 88, 200),
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(

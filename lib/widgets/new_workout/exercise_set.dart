@@ -1,6 +1,5 @@
-import 'package:final_project/models/exercise.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:final_project/models/exerciseSets.dart';
 
 class ExerciseSet extends StatefulWidget {
@@ -13,6 +12,7 @@ class ExerciseSet extends StatefulWidget {
   }
 }
 
+// Represents a exercise of a given exercise
 class _ExerciseSetState extends State<ExerciseSet> {
   @override
   void initState() {
@@ -29,6 +29,7 @@ class _ExerciseSetState extends State<ExerciseSet> {
     List<bool> isCorrectRep =
         List.generate(widget.exerciseSets.length, (index) => true);
 
+    /// validates that the weight input can be parsed double
     bool validateWeightInput(dynamic value) {
       if (double.tryParse(value) != null) {
         return true;
@@ -37,6 +38,7 @@ class _ExerciseSetState extends State<ExerciseSet> {
       }
     }
 
+    ///Validates that the amount of reps input can be parsed to in
     bool validateRepInput(dynamic value) {
       if (int.tryParse(value) != null) {
         return true;
@@ -45,8 +47,9 @@ class _ExerciseSetState extends State<ExerciseSet> {
       }
     }
 
+    /// returns the widget
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
           const Column(
@@ -93,7 +96,7 @@ class _ExerciseSetState extends State<ExerciseSet> {
                     children: <Widget>[
                       for (int i = 0; i < widget.exerciseSets.length; i++)
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
+                          padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,7 +280,7 @@ class _ExerciseSetState extends State<ExerciseSet> {
                       height: 26,
                       width: double.infinity,
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: const Color.fromARGB(255, 44, 88, 200),

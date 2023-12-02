@@ -1,7 +1,5 @@
 import 'package:final_project/models/workout.dart';
-import 'package:final_project/widgets/new_workout/workout_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NewWorkoutHeader extends StatefulWidget {
   const NewWorkoutHeader({super.key, required this.workout});
@@ -12,6 +10,7 @@ class NewWorkoutHeader extends StatefulWidget {
   }
 }
 
+// The header of a new workout.
 class _NewWorkoutHeaderState extends State<NewWorkoutHeader> {
   TextEditingController workoutController = TextEditingController();
 
@@ -30,12 +29,13 @@ class _NewWorkoutHeaderState extends State<NewWorkoutHeader> {
             color: const Color.fromARGB(255, 44, 88, 200),
           ),
           color: const Color.fromARGB(255, 44, 88, 200),
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: const BorderRadius.all(Radius.circular(10))),
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
+            // The workout header is a input field and can therfore be changed. The new value will be stored as the name of the workout.
             child: TextField(
               textAlign: TextAlign.center,
               controller: workoutController,

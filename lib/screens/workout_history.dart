@@ -26,6 +26,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
     _loadedWorkouts = _loadWorkouts();
   }
 
+  /// Loads the users workouts from db
   Future<List<Workout>> _loadWorkouts() async {
     DateFormat timeFormatter = DateFormat('HH:mm:ss');
     DateFormat dateFormatter = DateFormat('MM/dd/yy');
@@ -50,7 +51,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
         loadedWorkouts.add(workout);
       }
     }
-    print("after load workot 2");
+
     return loadedWorkouts;
   }
 
@@ -73,7 +74,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

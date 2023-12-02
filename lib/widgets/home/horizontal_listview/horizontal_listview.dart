@@ -1,7 +1,6 @@
 import 'package:final_project/models/workout.dart';
 import 'package:final_project/widgets/home/horizontal_listview/horizontal_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class HorizontalListView extends StatefulWidget {
   const HorizontalListView({super.key, required this.workouts});

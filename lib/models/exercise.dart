@@ -10,6 +10,8 @@ enum BodyPart {
   Abs,
 }
 
+///Represents a exercise
+
 class Exercise {
   Exercise({required this.name, required this.bodyPart, required this.sets});
 
@@ -17,18 +19,22 @@ class Exercise {
   final BodyPart bodyPart;
   final List<ExerciseSets> sets;
 
+  /// Returns the name of the exercise
   String getName() {
     return name;
   }
 
+//Returns the bodypart
   String getbodyPart() {
-    return this.bodyPart.name;
+    return bodyPart.name;
   }
 
+  /// Adds a set to the exercise
   void addSet(ExerciseSets set) {
     sets.add(set);
   }
 
+  /// Returns the total amount of weights per exercise
   double getTotalWeightsPErExercise() {
     double weight = 0;
     for (ExerciseSets set in sets) {
@@ -37,6 +43,7 @@ class Exercise {
     return weight;
   }
 
+  /// Converts and return a list of 'exerciseSet' objects into a list of JSON objects
   List<Map<String, dynamic>> setsToJson() {
     return sets.map((exerciseSet) {
       return {
@@ -47,6 +54,7 @@ class Exercise {
     }).toList();
   }
 
+  /// Returns a Map<String, dynamic> containing the serialized representation of the Exercise.
   Map<String, dynamic> toJson() {
     return {
       'name': name,
@@ -55,6 +63,8 @@ class Exercise {
     };
   }
 
+// Converts a string to a bodyopart and returns it.
+//Converts to Bodypart.Arms by default
   static BodyPart _getBodyPartFromString(String bodyPartString) {
     switch (bodyPartString) {
       case 'Chest':
@@ -76,6 +86,7 @@ class Exercise {
     }
   }
 
+  // Returns an Exercise object created from the provided JSON data.
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
       name: json['name'],

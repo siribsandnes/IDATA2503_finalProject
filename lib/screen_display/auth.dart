@@ -14,6 +14,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   bool showLoginPage = true;
 
+  /// method to change which screeen is shown to the user, login or signup?
   void toggleScreen() {
     setState(() {
       showLoginPage = !showLoginPage;

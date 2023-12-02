@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:final_project/models/exercise.dart';
 import 'package:final_project/widgets/new_workout/new_exercise_dialog.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
 class AddExerciseDialog extends StatefulWidget {
@@ -17,6 +14,7 @@ class AddExerciseDialog extends StatefulWidget {
   }
 }
 
+// Shows the add exercise dialog for adding new exercies to the workout
 class _AddExerciseDialogState extends State<AddExerciseDialog> {
   List<Exercise> exercises = []; // NEEDS TO GET EXERCISES FROM DATABASE
   List<Exercise> addedExercises = [];
@@ -26,7 +24,6 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadExercises();
     _searchController = TextEditingController();
@@ -38,6 +35,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     super.dispose();
   }
 
+// Filters exercises
   void _filterExercises(String searchText) {
     setState(() {
       if (searchText.isEmpty) {
@@ -59,6 +57,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     });
   }
 
+// Checks if a exercise has been selected. Used for visually updating UI when a exercise has been selected
   bool exerciseIsSelected(Exercise exercise) {
     if (addedExercises.contains(exercise)) {
       return true;
@@ -67,6 +66,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     }
   }
 
+  /// Loads exercises from db
   Future _loadExercises() async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
@@ -76,7 +76,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     for (final loadedExercise in loadedExercises.entries) {
       BodyPart bodyPart;
 
-      //I know i should have used enum maps in stead but did not have time to change it
+      ///I know i should have used enum maps in stead but did not have time to change it
       switch (loadedExercise.value["bodypart"]) {
         case 'Arms':
           bodyPart = BodyPart.Arms;
@@ -111,6 +111,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     }
   }
 
+  /// Saves a new exercise to the db
   Future saveExercise(Exercise exercise) async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
@@ -129,15 +130,17 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
     );
   }
 
+  /// Shows a new AlertDialog for creating new exercies on top of the current.
   void addNewExercise() async {
     Exercise newExercise = await showDialog(
-        context: context, builder: (context) => NewExerciseDialog());
+        context: context, builder: (context) => const NewExerciseDialog());
     setState(() {
       exercises.add(newExercise);
     });
     saveExercise(newExercise);
   }
 
+  /// Returns the AlertDialog
   @override
   Widget build(BuildContext context) {
     String warning = "";
@@ -162,7 +165,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                          const Color.fromARGB(255, 216, 224, 245),
+                          Color.fromARGB(255, 216, 224, 245),
                         ),
                       ),
                       child: const Text(
@@ -184,7 +187,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                     child: ElevatedButton(
                       style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(
-                          const Color.fromARGB(255, 216, 224, 245),
+                          Color.fromARGB(255, 216, 224, 245),
                         ),
                       ),
                       child: const Text(
@@ -224,7 +227,7 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                             },
                             decoration: InputDecoration(
                               hintText: "Search...",
-                              prefixIcon: Icon(Icons.search),
+                              prefixIcon: const Icon(Icons.search),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide
                                     .none, // Remove the color of the border
@@ -232,7 +235,8 @@ class _AddExerciseDialogState extends State<AddExerciseDialog> {
                                     6), // Optional border radius
                               ),
                               filled: true,
-                              fillColor: Color.fromARGB(255, 216, 224, 245),
+                              fillColor:
+                                  const Color.fromARGB(255, 216, 224, 245),
                             ),
                           ),
                         ),

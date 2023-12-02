@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:final_project/models/exercise.dart';
 import 'package:final_project/models/exerciseSets.dart';
@@ -11,13 +10,13 @@ import 'package:final_project/widgets/new_workout/workout_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:final_project/models/user.dart' as myUser;
+import 'package:final_project/models/user.dart' as myuser;
 
 class NewWorkoutScreen extends StatefulWidget {
   const NewWorkoutScreen(
       {super.key, required this.user, required this.selectPage});
 
-  final myUser.User user;
+  final myuser.User user;
   final Function selectPage;
 
   @override
@@ -38,7 +37,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
   Widget build(BuildContext context) {
     void addExercise() async {
       final List<Exercise> newExercise = await showDialog(
-          context: context, builder: (context) => AddExerciseDialog());
+          context: context, builder: (context) => const AddExerciseDialog());
       setState(() {
         for (Exercise exercise in newExercise) {
           exercises.add(exercise);
@@ -47,21 +46,13 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       });
     }
 
-    for (Exercise exercise in exercises) {
-      print(exercise.bodyPart.name);
-    }
-
+    ///Validates the exercise, all sets (true or false for done), weights and reps must be filled out.
+    ///Returns true if correct, false if something is missing
     bool validateExercises() {
-      print("inside calidate exercised");
-
       List<bool> isCorrect = [];
 
       for (Exercise exercise in newWorkout.exercises) {
         for (ExerciseSets sets in exercise.sets) {
-          print("inside loop");
-          print(sets.done);
-          print(sets.reps);
-          print(sets.weight);
           if (sets.done == true && sets.reps > 0 && sets.weight > 0) {
             isCorrect.add(true);
           } else {
@@ -74,17 +65,20 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
       return allCorrect;
     }
 
+    /// Generates JSON representation of exercises in the new workout.
     String getJson() {
       List<Map<String, dynamic>> jsonList =
           newWorkout.exercises.map((exercise) {
         return exercise.toJson();
       }).toList();
 
+      // Encodes the list of exercise JSON objects into a single JSON string.
       String jsonString = jsonEncode(jsonList);
       return jsonString;
     }
 
-    //Fix code to save a real workout
+    ///Saves a workout to the db.
+    /// To connect the workout to the correct user the email of the user is also saved with the workout
     Future saveWorkout() async {
       DateTime endTime = DateTime.now();
       String formattedDate = DateFormat.yMd().format(newWorkout.date);
@@ -103,7 +97,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
         final url = Uri.https(
             'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
             'workout.json');
-        final response = await http.post(
+        await http.post(
           url,
           headers: {
             'Content-Type': 'application/json',
@@ -124,11 +118,10 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
             widget.selectPage(2);
           });
         });
-      } else {
-        print("ikke validert all input");
-      }
+      } else {}
     }
 
+// Returns a container with the new workout
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -137,7 +130,7 @@ class _NewWorkoutScreenState extends State<NewWorkoutScreen> {
           children: [
             NewWorkoutHeader(workout: newWorkout),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Timer extends StatefulWidget {
   const Timer({super.key});
@@ -17,7 +16,7 @@ class _TimerState extends State<Timer> {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 8),
       child: Column(
         children: [
-          Row(
+          const Row(
             children: [
               Padding(
                 padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
@@ -29,7 +28,7 @@ class _TimerState extends State<Timer> {
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Container(
@@ -38,7 +37,7 @@ class _TimerState extends State<Timer> {
                 borderRadius: BorderRadius.circular(8),
                 color: const Color.fromARGB(255, 44, 88, 200),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //HERE TIMER SHOULD BE FOR CURRENT WORKOUT

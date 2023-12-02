@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:final_project/models/user.dart' as myUser;
+import 'package:final_project/models/user.dart' as myuser;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +16,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late Future<myUser.User> _loadedUser;
+  late Future<myuser.User> _loadedUser;
   final userEmail = FirebaseAuth.instance.currentUser!.email;
   final user = FirebaseAuth.instance.currentUser!;
   final _passwordController = GlobalKey<FormState>();
@@ -36,8 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _loadedUser = _loadUser();
   }
 
-  Future<myUser.User> _loadUser() async {
-    print(userEmail);
+  /// Loads the user from the db
+  Future<myuser.User> _loadUser() async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
         'user.json');
@@ -48,11 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     final Map<String, dynamic> loadedUsers = json.decode(response.body);
-    late myUser.User user;
+    late myuser.User user;
     for (final loadedUser in loadedUsers.entries) {
       _userid = loadedUser.key;
       if (loadedUser.value['email'] == userEmail) {
-        user = myUser.User(
+        user = myuser.User(
             firstname: loadedUser.value['firstname'],
             lastname: loadedUser.value['lastname'],
             email: loadedUser.value['email']);
@@ -61,6 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return user;
   }
 
+// Validates and saves the password (is i more or equal to 6?)
   bool validatePassword() {
     if (_passwordController.currentState!.validate()) {
       _passwordController.currentState!.save();
@@ -70,10 +71,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  /// Updates the user profile.
+  /// Shows a alertdialog to confrim apssword to be able to update.
+  /// Have a problem here as the Email had to be dofirmed before changing.
+  /// Therefor new data of the user is stored in the realtime db before the email actually has been changed
+  /// (a verification email is sent to the new email)
   void update() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      print(_enteredEmail);
 
       showDialog(
         context: context,
@@ -143,9 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         try {
                           await user.reauthenticateWithCredential(credential);
                           await user.verifyBeforeUpdateEmail(_enteredEmail);
-                        } catch (e) {
-                          print('Failed to re-authenticate: $e');
-                        }
+                        } catch (e) {}
                         await updateUser(
                             _enteredFirstname, _enteredLastname, _enteredEmail);
                       }
@@ -158,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(6)),
                       ),
                     ),
-                    child: Text('Confirm'),
+                    child: const Text('Confirm'),
                   ),
                 ),
               ],
@@ -169,11 +172,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  /// updates the user with a HTTP.patch. Correct user is accessed with the id of the user.
   Future updateUser(String firstname, String lastname, String email) async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
-        'user/${_userid}.json');
-    final response = await http.patch(
+        'user/$_userid.json');
+    await http.patch(
       url,
       headers: {
         'Content-Type': 'application/json',
@@ -186,17 +190,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       ),
     );
-
-    print(response.body);
-    print(response.statusCode);
   }
 
+  /// Checks if email is valid or not with regexp
   bool emailIsValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
+  /// Returns a scaffold with the widgets. Shows different content based off the Future methods (using futurebuilder)
   @override
   Widget build(BuildContext context) {
     Widget content = const Center(
@@ -242,8 +245,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Radius.circular(6),
                     ),
                   ),
-                  padding: EdgeInsets.all(2),
-                  margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  padding: const EdgeInsets.all(2),
+                  margin: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -254,7 +257,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               onPressed: () {
                                 setState(() {
                                   editEnabled = !editEnabled;
-                                  print(editEnabled);
                                 });
                               },
                               icon: const Icon(
@@ -391,7 +393,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     }
                                   },
                                   onSaved: (value) {
-                                    print("saved email");
                                     _enteredEmail = value!.trim();
                                   },
                                 ),

@@ -1,13 +1,12 @@
 import 'package:final_project/models/exercise.dart';
-import 'package:final_project/models/exerciseSets.dart';
-import 'package:final_project/widgets/new_workout/exercise_set.dart';
+
 import 'package:final_project/widgets/workout_history/finished_exercise_set.dart';
 import 'package:flutter/material.dart';
 
 class FinishedExerciseContainer extends StatelessWidget {
-  FinishedExerciseContainer({super.key, required this.exercise});
+  const FinishedExerciseContainer({super.key, required this.exercise});
 
-  Exercise exercise;
+  final Exercise exercise;
 
   @override
   Widget build(BuildContext context) {

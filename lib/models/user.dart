@@ -1,5 +1,6 @@
 import 'package:final_project/models/workout.dart';
 
+/// Represents a user
 class User {
   User({
     required this.firstname,
@@ -12,12 +13,8 @@ class User {
   final String email;
   final List<Workout> workouts = [];
 
+  /// adds a user to the workout
   void addWorkout(Workout workout) {
     workouts.add(workout);
-  }
-
-  void printUser() {
-    print("Firstname: " + firstname);
-    print("Lastname: " + lastname);
   }
 }

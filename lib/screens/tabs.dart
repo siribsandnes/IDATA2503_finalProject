@@ -3,12 +3,11 @@ import 'package:intl/intl.dart';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:final_project/models/exercise.dart';
-import 'package:final_project/models/user.dart' as myUser;
+import 'package:final_project/models/user.dart' as myuser;
 import 'package:final_project/models/workout.dart';
 import 'package:final_project/screens/home.dart';
 import 'package:final_project/screens/new_workout.dart';
 import 'package:final_project/screens/profile.dart';
-import 'package:final_project/screens/settings.dart';
 import 'package:final_project/screens/workout_history.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,7 +26,7 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 3;
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  late Future<myUser.User> _loadedUser;
+  late Future<myuser.User> _loadedUser;
   late Future<List<Workout>> _loadedWorkouts;
   final userEmail = FirebaseAuth.instance.currentUser!.email;
 
@@ -38,7 +37,8 @@ class _TabsScreenState extends State<TabsScreen> {
     _loadedWorkouts = _loadWorkouts();
   }
 
-  Future<myUser.User> _loadUser() async {
+// Loads user from db an saves it in a user object
+  Future<myuser.User> _loadUser() async {
     final url = Uri.https(
         'idata2503-finalproject-default-rtdb.europe-west1.firebasedatabase.app',
         'user.json');
@@ -49,10 +49,10 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     final Map<String, dynamic> loadedUsers = json.decode(response.body);
-    late myUser.User user;
+    late myuser.User user;
     for (final loadedUser in loadedUsers.entries) {
       if (loadedUser.value['email'] == userEmail) {
-        user = myUser.User(
+        user = myuser.User(
             firstname: loadedUser.value['firstname'],
             lastname: loadedUser.value['lastname'],
             email: loadedUser.value['email']);
@@ -61,6 +61,7 @@ class _TabsScreenState extends State<TabsScreen> {
     return user;
   }
 
+  /// Loads workout from db and saves it in a list of workouts
   Future<List<Workout>> _loadWorkouts() async {
     DateFormat timeFormatter = DateFormat('HH:mm:ss');
     DateFormat dateFormatter = DateFormat('MM/dd/yy');
@@ -77,7 +78,7 @@ class _TabsScreenState extends State<TabsScreen> {
             startTime: timeFormatter.parse(loadedWorkout.value["startTime"]),
             date: dateFormatter.parse(loadedWorkout.value["date"]),
             endTime: timeFormatter.parse(loadedWorkout.value["endTime"]));
-        print("after load workot");
+
         List<Exercise> exercises =
             (json.decode(loadedWorkout.value["exercises"]) as List)
                 .map((exerciseJson) => Exercise.fromJson(exerciseJson))
@@ -89,29 +90,18 @@ class _TabsScreenState extends State<TabsScreen> {
     return loadedWorkouts;
   }
 
+  /// Sets screen based of an identifier
   _setScreen(String identifier) async {
     Navigator.pop(context); //Closes the MainDrawers
 
     if (identifier == "profile") {
       //Navigates to the FiltersScreen
-      final result = await Navigator.of(context).push(
+      await Navigator.of(context).push(
         //Values returned from filters screen are saved in result.
         //Tells what will be retruned with push<returntype>
         MaterialPageRoute(
           builder: (ctx) => const Scaffold(
             body: ProfileScreen(),
-          ),
-        ),
-      );
-    }
-    if (identifier == "settings") {
-      //Navigates to the FiltersScreen
-      final result = await Navigator.of(context).push(
-        //Values returned from filters screen are saved in result.
-        //Tells what will be retruned with push<returntype>
-        MaterialPageRoute(
-          builder: (ctx) => const Scaffold(
-            body: SettingsScreen(),
           ),
         ),
       );
@@ -125,6 +115,9 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  /// Returns a scaffold with content.
+  /// Shows different content based off the bottom navigation bar.
+  /// Can either be HomeScreen, NewWorkoutScreen or WorkoutHistoryScreen
   @override
   Widget build(BuildContext context) {
     Widget content = const Center(
@@ -139,7 +132,7 @@ class _TabsScreenState extends State<TabsScreen> {
       backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(1000, 241, 244, 252),
-        foregroundColor: Color.fromARGB(1000, 34, 67, 153),
+        foregroundColor: const Color.fromARGB(1000, 34, 67, 153),
       ),
       body: FutureBuilder(
         future: _loadedUser,
@@ -183,7 +176,7 @@ class _TabsScreenState extends State<TabsScreen> {
                     );
                   }
                   if (snapshot2.hasData) {
-                    content2 = HomeScreen();
+                    content2 = const HomeScreen();
                   }
                   return content2;
                 },

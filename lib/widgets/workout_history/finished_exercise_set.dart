@@ -1,6 +1,5 @@
-import 'package:final_project/models/exercise.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:final_project/models/exerciseSets.dart';
 
 class FinishedExerciseSet extends StatelessWidget {
@@ -10,7 +9,7 @@ class FinishedExerciseSet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
           const Column(
@@ -57,7 +56,7 @@ class FinishedExerciseSet extends StatelessWidget {
                     children: <Widget>[
                       for (int i = 0; i < exerciseSets.length; i++)
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
+                          padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,11 +146,10 @@ class FinishedExerciseSet extends StatelessWidget {
                                 child: ConstrainedBox(
                                   constraints: const BoxConstraints.tightFor(
                                       width: 30, height: 30),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.done,
                                     size: 18,
-                                    color: const Color.fromARGB(
-                                        255, 231, 234, 242),
+                                    color: Color.fromARGB(255, 231, 234, 242),
                                   ),
                                 ),
                               ),

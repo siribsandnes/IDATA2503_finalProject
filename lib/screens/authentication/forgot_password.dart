@@ -1,7 +1,5 @@
-// ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -17,23 +15,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   var _enteredMail = "";
 
+  /// Checks if the email is valid using regex
   bool emailIsValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
+  /// resets the password, returns a future. Uses firebaseAuth to reset password (a reset amil is sent)
   Future resetPassword() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
     }
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: _enteredMail);
-    } on FirebaseAuthException catch (e) {
-      print(e);
-    }
+    } on FirebaseAuthException catch (e) {}
   }
 
+  /// Returns a scaffold
   @override
   Widget build(BuildContext context) {
     return Scaffold(

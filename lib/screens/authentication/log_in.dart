@@ -1,5 +1,5 @@
 import 'package:final_project/screens/authentication/forgot_password.dart';
-import 'package:final_project/screens/authentication/sign_up.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +18,7 @@ class _LogInScreenState extends State<LogInScreen> {
   var _enteredMail = "";
   var _enteredPassword = "";
 
+  /// Signs a user in. first it validates the input and then it saves it so that it can be uset to log in.
   Future _signIn() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
@@ -28,12 +29,14 @@ class _LogInScreenState extends State<LogInScreen> {
     }
   }
 
+  /// Checks if a email is valid, uses regexp
   bool emailIsValid(String email) {
     return RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(email);
   }
 
+  /// Returns a scaffold with the login widget
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +49,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     const Text(
@@ -137,13 +140,14 @@ class _LogInScreenState extends State<LogInScreen> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 6, 6, 6),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 6, 6, 6),
                                   child: GestureDetector(
                                     onTap: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(builder: (context) {
-                                          return ForgotPasswordScreen();
+                                          return const ForgotPasswordScreen();
                                         }),
                                       );
                                     },

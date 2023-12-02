@@ -1,6 +1,5 @@
 import 'package:final_project/models/exercise.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NewExerciseDialog extends StatefulWidget {
   const NewExerciseDialog({super.key});
@@ -11,6 +10,7 @@ class NewExerciseDialog extends StatefulWidget {
   }
 }
 
+/// Alert dialog for adding a new exercise
 class _NewExerciseDialogState extends State<NewExerciseDialog> {
   List<BodyPart> dropDownElements = [
     BodyPart.Chest,
@@ -30,7 +30,7 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
     return Theme(
       data: ThemeData(),
       child: AlertDialog(
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: const EdgeInsets.all(20),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10),
@@ -51,7 +51,6 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                 child: TextField(
                   onChanged: (value) {
                     _exerciseName = value;
-                    print(_exerciseName);
                   },
                   decoration: const InputDecoration(
                     labelText: "New Exercise",
@@ -74,7 +73,7 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
               const SizedBox(height: 10),
               Container(
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 216, 224, 245),
+                  color: const Color.fromARGB(255, 216, 224, 245),
                   borderRadius:
                       BorderRadius.circular(6.0), // Adjust the radius as needed
                 ),
@@ -84,7 +83,6 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                   onChanged: (newValue) {
                     setState(() {
                       _selectedBodyPart = newValue!;
-                      print(_selectedBodyPart);
                     });
                   },
                   items: dropDownElements.map<DropdownMenuItem<BodyPart>>(
@@ -92,7 +90,7 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                       return DropdownMenuItem<BodyPart>(
                         value: value,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
                             value.toString().split('.').last,
                             style: const TextStyle(
@@ -105,7 +103,7 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                   // Apply the same decoration style to the dropdown button
                   underline: Container(),
                   elevation: 0,
-                  dropdownColor: Color.fromARGB(255, 216, 224, 245),
+                  dropdownColor: const Color.fromARGB(255, 216, 224, 245),
                   icon: const Icon(Icons.arrow_drop_down,
                       color: Color.fromARGB(255, 44, 88, 200)),
                 ),
@@ -120,9 +118,9 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
               SizedBox(
                 width: 90,
                 child: ElevatedButton(
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(
-                      const Color.fromARGB(255, 216, 224, 245),
+                      Color.fromARGB(255, 216, 224, 245),
                     ),
                   ),
                   child: const Text(
@@ -142,9 +140,9 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
               SizedBox(
                 width: 90,
                 child: ElevatedButton(
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                     backgroundColor: MaterialStatePropertyAll(
-                      const Color.fromARGB(255, 216, 224, 245),
+                      Color.fromARGB(255, 216, 224, 245),
                     ),
                   ),
                   child: const Text(
@@ -154,7 +152,7 @@ class _NewExerciseDialogState extends State<NewExerciseDialog> {
                     ),
                   ),
                   onPressed: () {
-                    if (_exerciseName.isNotEmpty && _exerciseName.length >= 1) {
+                    if (_exerciseName.isNotEmpty) {
                       Exercise exercise = Exercise(
                           name: _exerciseName,
                           bodyPart: _selectedBodyPart,

@@ -26,7 +26,6 @@ class Chart extends StatelessWidget {
     }
 
     return maxTotalWorkout;
-    ;
   }
 
 //Creates and returns a chart wiget.
@@ -60,7 +59,7 @@ class Chart extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: const Color.fromARGB(255, 44, 88, 200)),
-              child: Center(
+              child: const Center(
                 child: Text(
                   'No recent workouts...',
                   style: TextStyle(
@@ -84,7 +83,7 @@ class Chart extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                 child: Text(
-                  "WEEKLY OVERVIEW", //GET FROM WORKOUT
+                  "WORKOUTS OVERVIEW", //GET FROM WORKOUT
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ),
@@ -131,7 +130,7 @@ class Chart extends StatelessWidget {
                                       .substring(0, 1)
                                       .toUpperCase() +
                                   bucket.category.name.substring(1),
-                              style: TextStyle(color: Colors.white),
+                              style: const TextStyle(color: Colors.white),
                             ),
                           ),
                         ),
