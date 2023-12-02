@@ -182,8 +182,7 @@ class _TabsScreenState extends State<TabsScreen> {
                     );
                   }
                   if (snapshot2.hasData) {
-                    content2 = HomeScreen(
-                        user: snapshot.data!, workouts: snapshot2.data!);
+                    content2 = HomeScreen();
                   }
                   return content2;
                 },
